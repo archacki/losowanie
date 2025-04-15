@@ -103,33 +103,33 @@
 
   <script>
     const names = [
-      // Ostatni sprint
-{ name: "Stanisław Czujko", rarity: "gold" },
-      //Poprzedni sprint
-{ name: "Paulina Kustra", rarity: "red" },
-      //3 sprinty temu
-{ name: "Adrian Domański", rarity: "pink" },
-      //4 sprinty temu + drużyna ostatniego
-{ name: "Maciej Sputowski", rarity: "blue" },
-{ name: "Jan Biniek", rarity: "blue" },
-{ name: "Jarosław Dominiak", rarity: "blue" },
-{ name: "Dominik Jarecki", rarity: "blue" },
-{ name: "Łukasz Koryciński", rarity: "blue" },
-{ name: "Konrad Kowalak", rarity: "blue" },
-{ name: "Jakub Nowakowski", rarity: "blue" },
-{ name: "Karol Patecki", rarity: "blue" },
-{ name: "Paweł Rup", rarity: "blue" },
-{ name: "Jacek Rzewuski", rarity: "blue" },
-{ name: "Marcin Ziółkowski", rarity: "blue" },
-      //Pozostali
- { name: "Jakub Archacki", rarity: "white" },
- { name: "Adam Dąbrowski", rarity: "white" },
- { name: "Anna Jurga", rarity: "white" },
- { name: "Ola Kołakowska", rarity: "white" },
- { name: "Mateusz Kubacki", rarity: "white" },
- { name: "Albert Sadowski", rarity: "white" },
- { name: "Tomas Vesely", rarity: "white" }
-  ];
+const allNames = {
+  gold: ["Stanisław Czujko"], //dzisiaj
+  red: ["Paulina Kustra"], //sprint temu
+  pink: ["Adrian Domański"], //2 sprinty temu
+  violet: ["Maciej Sputowski"], //3 sprinty temu
+  blue: [
+    "Jan Biniek",
+    "Jarosław Dominiak",
+    "Dominik Jarecki",
+    "Łukasz Koryciński",
+    "Konrad Kowalak",
+    "Jakub Nowakowski",
+    "Karol Patecki",
+    "Paweł Rup",
+    "Jacek Rzewuski",
+    "Marcin Ziółkowski"
+  ], // 4 sprinty temu + team dzisiejszego
+  white: [
+    "Jakub Archacki",
+    "Adam Dąbrowski",
+    "Anna Jurga",
+    "Ola Kołakowska",
+    "Mateusz Kubacki",
+    "Albert Sadowski",
+    "Tomas Vesely"
+  ]
+};
 
     function populateNames() {
       const strip = document.getElementById("scroll-strip");
