@@ -146,7 +146,7 @@
       const strip = document.getElementById("scroll-strip");
       strip.innerHTML = "";
 
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 150; i++) { // Generujemy więcej kafelków
         const rarity = getRandomRarity();
         const name = getRandomPersonByRarity(rarity);
         const div = document.createElement("div");
@@ -165,7 +165,7 @@
       const strip = document.getElementById("scroll-strip");
       const nameWidth = 120;
       const centerOffset = 300 - nameWidth / 2;
-      const totalDuration = 15 * 1000;
+      const totalDuration = 15 * 1000; // Czas trwania animacji (15 sekund)
 
       const total = strip.children.length;
       const finalTargetIndex = Math.floor(Math.random() * (total - 5));
@@ -179,7 +179,7 @@
         { transform: `translateX(-${totalDistance}px)` }
       ], {
         duration: totalDuration,
-        easing: 'cubic-bezier(0.1, 1, 0.4, 1)',
+        easing: 'cubic-bezier(0.1, 1, 0.4, 1)', // Stała wartość easing
         fill: 'forwards'
       });
 
@@ -221,8 +221,7 @@
     </ul>
   </div>
 <p style="margin-top: 40px; font-size: 10px; color: #888;">
-  v. 0.1 by Jakub Archacki & Chat GPT Company Sp. z o. o.
+  v. 0.1.1 by Jakub Archacki & Chat GPT Company Sp. z o. o.
 </p>
 </body>
 </html>
-
