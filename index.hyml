@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Losowanie</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+    }
+
+    .scroll-container {
+      position: relative;
+      width: 600px;
+      height: 120px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 3px solid #fff;
+      border-radius: 10px;
+      background: #222;
+    }
+
+    .scroll-strip {
+      display: flex;
+      will-change: transform;
+    }
+
+    .name {
+      flex: 0 0 120px;
+      height: 120px;
+      line-height: 45px;
+      text-align: center;
+      font-size: 15px;
+      background: #333;
+      border-right: 1px solid #555;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      word-wrap: break-word;
+      white-space: normal;
+    }
+
+    .gold { color: gold; }
+    .red { color: red; }
+    .pink { color: pink; }
+    .violet { color: violet; }
+    .blue { color: deepskyblue; }
+    .white { color: white; }
+
+    .indicator {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: red;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+
+    #result {
+      margin-top: 30px;
+      font-size: 22px;
+      color: yellow;
+      display: none;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background: #0c6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Wybierz nieszczęśnika!</h1>
+
+  <div class="scroll-container">
+    <div class="scroll-strip" id="scroll-strip">
+      <!-- Wygenerowane imiona -->
+    </div>
+    <div class="indicator"></div>
+  </div>
+
+  <button id="roll-btn" onclick="roll()">Losuj</button>
+
+  <div id="result"></div>
+
+  <script>
+    const names = [
+      { name: "Jakub Archacki", rarity: "gold" },
+      { name: "Adam Dąbrowski", rarity: "red" },
+      { name: "Adrian Domański", rarity: "pink" },
+      { name: "Anna Jurga", rarity: "violet" },
+      { name: "Ola Kołakowska", rarity: "blue" },
+      { name: "Mateusz Kubacki", rarity: "blue" },
+      { name: "Paulina Kustra", rarity: "blue" },
+      { name: "Albert Sadowski", rarity: "blue" },
+      { name: "Maciej Sputowski", rarity: "blue" },
+      { name: "Tomas Vesely", rarity: "blue" },
+      { name: "Jan Biniek", rarity: "blue" },
+      { name: "Stanisław Czujko", rarity: "blue" },
+      { name: "Jarosław Dominiak", rarity: "blue" },
+      { name: "Dominik Jarecki", rarity: "blue" },
+      { name: "Łukasz Koryciński", rarity: "blue" },
+      { name: "Konrad Kowalak", rarity: "blue" },
+      { name: "Jakub Nowakowski", rarity: "white" },
+      { name: "Karol Patecki", rarity: "white" },
+      { name: "Paweł Rup", rarity: "white" },
+      { name: "Jacek Rzewuski", rarity: "white" },
+      { name: "Marcin Ziółkowski", rarity: "white" }
+    ];
+
+    function populateNames() {
+      const strip = document.getElementById("scroll-strip");
+      strip.innerHTML = '';
+
+      // Generowanie 100 osób, zachowując przypisania do kolorów
+      for (let i = 0; i < 100; i++) {
+        const person = names[i % names.length]; // Przypisanie osoby cyklicznie
+        const div = document.createElement("div");
+        div.className = `name ${person.rarity}`; // Przypisanie klasy CSS zgodnie z rarity
+        div.textContent = person.name;
+        strip.appendChild(div);
+      }
+    }
+
+    function roll() {
+      // Usuwamy przycisk losuj po pierwszym kliknięciu
+      const button = document.getElementById("roll-btn");
+      button.style.display = "none"; // Ukrywamy przycisk po pierwszym użyciu
+
+      populateNames(); // Losowanie imion i kolorów
+
+      const strip = document.getElementById("scroll-strip");
+      const nameWidth = 120;
+      const centerOffset = 300 - nameWidth / 2; // Nowa wartość centrowania
+      const totalDuration = Math.floor(Math.random() * 11) + 15; // 10–20 sekund
+      const total = strip.children.length;
+
+      const finalTargetIndex = Math.floor(Math.random() * (total - 5));
+      const finalTargetOffset = finalTargetIndex * nameWidth;
+      const stopOffset = finalTargetOffset - centerOffset;
+
+      const totalDistance = stopOffset - 300; // Cała droga do pokonania
+
+      // Animacja, która zaczyna się od 2000px na sekundę, a potem zwalnia do 0px na sekundę
+      const stripAnimation = strip.animate([
+        { transform: `translateX(0px)` },
+        { transform: `translateX(-${totalDistance}px)` }
+      ], {
+        duration: totalDuration * 1000, // Czas trwania animacji
+        easing: 'cubic-bezier(0.1, 1, 0.4, 1)', // Zmienia prędkość w czasie
+        fill: 'forwards'
+      });
+
+      stripAnimation.onfinish = () => {
+        // Animacja zakończona
+      };
+    }
+  </script>
+
+</body>
+</html>
