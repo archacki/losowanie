@@ -10,6 +10,7 @@
       color: #fff;
       text-align: center;
       padding: 50px;
+      overflow-x: hidden;
     }
 
     .scroll-container {
@@ -68,6 +69,13 @@
       display: none;
     }
 
+    #result small {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
     button {
       margin-top: 30px;
       padding: 10px 20px;
@@ -82,6 +90,16 @@
     button:disabled {
       background: #555;
       cursor: not-allowed;
+    }
+
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 100;
     }
   </style>
 </head>
@@ -98,6 +116,12 @@
 
   <div id="result"></div>
 
+  <canvas class="confetti" id="confetti"></canvas>
+
+  <audio id="carousel-sound" src="https://cdn.pixabay.com/audio/2022/08/15/audio_0f2f35eb3d.mp3"></audio>
+  <audio id="fanfare-sound" src="https://cdn.pixabay.com/audio/2021/11/10/audio_91968c8aa0.mp3"></audio>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
     const allNames = {
       gold: ["Stanisław Czujko"],
@@ -124,7 +148,6 @@
       { rarity: "white", chance: 69.99 }
     ];
 
-
     function getRandomRarity() {
       const rand = Math.random() * 100;
       let sum = 0;
@@ -134,7 +157,7 @@
           return probabilities[i].rarity;
         }
       }
-      return "white"; // fallback
+      return "white";
     }
 
     function getRandomPersonByRarity(rarity) {
@@ -146,7 +169,7 @@
       const strip = document.getElementById("scroll-strip");
       strip.innerHTML = "";
 
-      for (let i = 0; i < 150; i++) { // Generujemy więcej kafelków
+      for (let i = 0; i < 150; i++) {
         const rarity = getRandomRarity();
         const name = getRandomPersonByRarity(rarity);
         const div = document.createElement("div");
@@ -158,39 +181,70 @@
 
     function roll() {
       const button = document.getElementById("roll-btn");
-      button.style.display = "none";
-
+      button.disabled = true;
       populateNames();
+
+      const carouselSound = document.getElementById("carousel-sound");
+      const fanfareSound = document.getElementById("fanfare-sound");
+      carouselSound.play();
 
       const strip = document.getElementById("scroll-strip");
       const nameWidth = 120;
-      const centerOffset = 300 - nameWidth / 2;
-      const totalDuration = 15 * 1000; // Czas trwania animacji (15 sekund)
-
+      const containerWidth = 600;
+      const centerOffset = containerWidth / 2 - nameWidth / 2;
       const total = strip.children.length;
-      const finalTargetIndex = Math.floor(Math.random() * (total - 5));
+      const finalTargetIndex = Math.floor(Math.random() * total);
       const finalTargetOffset = finalTargetIndex * nameWidth;
       const stopOffset = finalTargetOffset - centerOffset;
 
       const totalDistance = stopOffset;
+      const totalDuration = 15000;
 
       const stripAnimation = strip.animate([
         { transform: `translateX(0px)` },
         { transform: `translateX(-${totalDistance}px)` }
       ], {
         duration: totalDuration,
-        easing: 'cubic-bezier(0.1, 1, 0.4, 1)', // Stała wartość easing
+        easing: 'cubic-bezier(0.1, 1, 0.4, 1)',
         fill: 'forwards'
       });
 
       stripAnimation.onfinish = () => {
-        // Możesz coś zrobić po zakończeniu
+        carouselSound.pause();
+        carouselSound.currentTime = 0;
+        fanfareSound.play();
+
+        const scrollContainer = document.querySelector(".scroll-container");
+        const stripRect = strip.getBoundingClientRect();
+        const containerRect = scrollContainer.getBoundingClientRect();
+        const centerX = containerRect.left + containerRect.width / 2;
+
+        let winner = null;
+        for (const child of strip.children) {
+          const childRect = child.getBoundingClientRect();
+          if (childRect.left <= centerX && childRect.right >= centerX) {
+            winner = child;
+            break;
+          }
+        }
+
+        const result = document.getElementById("result");
+        if (winner) {
+          result.innerHTML = `👑 Następcą tronu perłowego królestwa zostaje <strong class="${winner.classList[1]}">${winner.textContent}</strong>! 👑<small>Tuż po wschodzie słońca w dniu 29 kwietnia roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</small>`;
+          result.style.display = "block";
+          confetti({ particleCount: 200, spread: 120, origin: { y: 0.4 } });
+        } else {
+          result.innerHTML = `❓ Nie udało się ustalić zwycięzcy.`;
+          result.style.display = "block";
+        }
       };
     }
 
     document.getElementById("roll-btn").addEventListener("click", roll);
   </script>
 
+  <!-- Legenda kolorów -->
+  
   <div id="legend" style="margin-top: 50px; color: #fff; text-align: left; padding-left: 20px;">
     <h2>Legenda:</h2>
     <ul>
@@ -221,7 +275,7 @@
     </ul>
   </div>
 <p style="margin-top: 40px; font-size: 10px; color: #888;">
-  v. 0.1.1 by Jakub Archacki & Chat GPT Company Sp. z o. o.
+  v. 0.1.3 by Jakub Archacki & Chat GPT Company Sp. z o. o.
 </p>
 </body>
 </html>
