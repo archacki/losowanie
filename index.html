@@ -79,17 +79,21 @@
 
     button {
       margin-top: 30px;
-      padding: 10px 20px;
+      padding: 12px 28px;
       font-size: 18px;
-      background: #0c6;
-      color: white;
-      border: none;
-      border-radius: 8px;
+      font-family: 'MedievalSharp', sans-serif;
+      background: #f5f0dc;
+      color: #000;
+      border: 2px solid #bfa76f;
+      border-radius: 10px;
       cursor: pointer;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+      background-size: cover;
     }
 
     button:disabled {
-      background: #555;
+      background: #ccc;
       cursor: not-allowed;
     }
 
@@ -113,7 +117,7 @@
     <div class="indicator"></div>
   </div>
 
-  <button id="roll-btn">Losuj</button>
+  <button id="roll-btn">Wskaż wybrańca!</button>
 
   <div id="result"></div>
 
@@ -190,7 +194,7 @@
   function startRoll() {
     const button = document.getElementById("roll-btn");
     button.disabled = true;
-    button.textContent = "Losuję...";
+    button.textContent = "Wyrokuję...";
 
     reset(); // wyczyść poprzednie losowanie
     populateNames();
@@ -259,7 +263,7 @@
 
       // Przywracamy przycisk do aktywnego stanu
       button.disabled = false;
-      button.textContent = "Przelosuj";
+      button.textContent = "Wskaż ponownie!";
     };
   }
 
@@ -298,7 +302,7 @@
   </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #888;">
-    v. 0.1.10 by Jakub Archacki & Chat GPT Company Sp. z o. o.
+    v. 0.1.11 by Jakub Archacki & Chat GPT Company Sp. z o. o.
   </p>
 </body>
 </html>
