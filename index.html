@@ -31,7 +31,6 @@
     .name {
       flex: 0 0 120px;
       height: 120px;
-      line-height: 15px;
       text-align: center;
       font-size: 15px;
       background: #333;
@@ -91,94 +90,106 @@
   <h1>Wybierz nieszczęśnika!</h1>
 
   <div class="scroll-container">
-    <div class="scroll-strip" id="scroll-strip">
-      <!-- Wygenerowane imiona -->
-    </div>
+    <div class="scroll-strip" id="scroll-strip"></div>
     <div class="indicator"></div>
   </div>
 
-  <button id="roll-btn" onclick="roll()">Losuj</button>
+  <button id="roll-btn">Losuj</button>
 
   <div id="result"></div>
 
   <script>
-    const names = [
-const allNames = {
-  gold: ["Stanisław Czujko"], //dzisiaj
-  red: ["Paulina Kustra"], //sprint temu
-  pink: ["Adrian Domański"], //2 sprinty temu
-  violet: ["Maciej Sputowski"], //3 sprinty temu
-  blue: [
-    "Jan Biniek",
-    "Jarosław Dominiak",
-    "Dominik Jarecki",
-    "Łukasz Koryciński",
-    "Konrad Kowalak",
-    "Jakub Nowakowski",
-    "Karol Patecki",
-    "Paweł Rup",
-    "Jacek Rzewuski",
-    "Marcin Ziółkowski"
-  ], // 4 sprinty temu + team dzisiejszego
-  white: [
-    "Jakub Archacki",
-    "Adam Dąbrowski",
-    "Anna Jurga",
-    "Ola Kołakowska",
-    "Mateusz Kubacki",
-    "Albert Sadowski",
-    "Tomas Vesely"
-  ]
-};
+    const allNames = {
+      gold: ["Stanisław Czujko"],
+      red: ["Paulina Kustra"],
+      pink: ["Adrian Domański"],
+      violet: ["Maciej Sputowski"],
+      blue: [
+        "Jan Biniek", "Jarosław Dominiak", "Dominik Jarecki", "Łukasz Koryciński",
+        "Konrad Kowalak", "Jakub Nowakowski", "Karol Patecki", "Paweł Rup",
+        "Jacek Rzewuski", "Marcin Ziółkowski"
+      ],
+      white: [
+        "Jakub Archacki", "Adam Dąbrowski", "Anna Jurga", "Ola Kołakowska",
+        "Mateusz Kubacki", "Albert Sadowski", "Tomas Vesely"
+      ]
+    };
+
+    const probabilities = [
+      { rarity: "gold", chance: 0.1 },
+      { rarity: "red", chance: 3 },
+      { rarity: "pink", chance: 7 },
+      { rarity: "violet", chance: 15 },
+      { rarity: "blue", chance: 25 },
+      { rarity: "white", chance: 49.9 }
+    ];
+
+    function getRandomRarity() {
+      const rand = Math.random() * 100;
+      let sum = 0;
+      for (let i = 0; i < probabilities.length; i++) {
+        sum += probabilities[i].chance;
+        if (rand < sum) {
+          return probabilities[i].rarity;
+        }
+      }
+      return "white"; // fallback
+    }
+
+    function getRandomPersonByRarity(rarity) {
+      const list = allNames[rarity];
+      return list[Math.floor(Math.random() * list.length)];
+    }
 
     function populateNames() {
       const strip = document.getElementById("scroll-strip");
-      strip.innerHTML = '';
+      strip.innerHTML = "";
 
-      // Generowanie 100 osób, zachowując przypisania do kolorów
       for (let i = 0; i < 100; i++) {
-        const person = names[i % names.length]; // Przypisanie osoby cyklicznie
+        const rarity = getRandomRarity();
+        const name = getRandomPersonByRarity(rarity);
         const div = document.createElement("div");
-        div.className = `name ${person.rarity}`; // Przypisanie klasy CSS zgodnie z rarity
-        div.textContent = person.name;
+        div.className = `name ${rarity}`;
+        div.textContent = name;
         strip.appendChild(div);
       }
     }
 
     function roll() {
-      // Usuwamy przycisk losuj po pierwszym kliknięciu
       const button = document.getElementById("roll-btn");
-      button.style.display = "none"; // Ukrywamy przycisk po pierwszym użyciu
+      button.style.display = "none";
 
-      populateNames(); // Losowanie imion i kolorów
+      populateNames();
 
       const strip = document.getElementById("scroll-strip");
       const nameWidth = 120;
-      const centerOffset = 300 - nameWidth / 2; // Nowa wartość centrowania
-      const totalDuration = Math.floor(Math.random() * 11) + 15; // 10–20 sekund
-      const total = strip.children.length;
+      const centerOffset = 300 - nameWidth / 2;
+      const totalDuration = 15 * 1000;
 
+      const total = strip.children.length;
       const finalTargetIndex = Math.floor(Math.random() * (total - 5));
       const finalTargetOffset = finalTargetIndex * nameWidth;
       const stopOffset = finalTargetOffset - centerOffset;
 
-      const totalDistance = stopOffset - 300; // Cała droga do pokonania
+      const totalDistance = stopOffset;
 
-      // Animacja, która zaczyna się od 2000px na sekundę, a potem zwalnia do 0px na sekundę
       const stripAnimation = strip.animate([
         { transform: `translateX(0px)` },
         { transform: `translateX(-${totalDistance}px)` }
       ], {
-        duration: totalDuration * 1000, // Czas trwania animacji
-        easing: 'cubic-bezier(0.1, 1, 0.4, 1)', // Zmienia prędkość w czasie
+        duration: totalDuration,
+        easing: 'cubic-bezier(0.1, 1, 0.4, 1)',
         fill: 'forwards'
       });
 
       stripAnimation.onfinish = () => {
-        // Animacja zakończona
+        // Możesz coś zrobić po zakończeniu
       };
     }
+
+    document.getElementById("roll-btn").addEventListener("click", roll);
   </script>
 
 </body>
 </html>
+``
