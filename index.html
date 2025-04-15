@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Losowanie</title>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'MedievalSharp', sans-serif;
       background: #111;
       color: #fff;
       text-align: center;
@@ -229,9 +230,17 @@
         }
 
         const result = document.getElementById("result");
-        if (winner) {
-          result.innerHTML = `👑 Następcą tronu perłowego królestwa zostaje <strong class="${winner.classList[1]}">${winner.textContent}</strong>! 👑<small>Tuż po wschodzie słońca w dniu 29 kwietnia roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</small>`;
-          result.style.display = "block";
+       if (winner) {
+  result.innerHTML = `
+    <span style="font-size: 30px; font-weight: bold; text-transform: uppercase;">
+      👑 NASTĘPCĄ TRONU PERŁOWEGO KRÓLESTWA ZOSTAJE <strong class="${winner.classList[1]}">${winner.textContent}</strong>! 👑
+    </span>
+    <br>
+    <span style="font-size: 16px; font-weight: normal;">
+      <strong>Tuż po wschodzie słońca w dniu 29 kwietnia roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</strong>
+    </span>
+  `;
+  result.style.display = "block";
           confetti({ particleCount: 200, spread: 120, origin: { y: 0.4 } });
         } else {
           result.innerHTML = `❓ Nie udało się ustalić zwycięzcy.`;
@@ -243,8 +252,7 @@
     document.getElementById("roll-btn").addEventListener("click", roll);
   </script>
 
-  <!-- Legenda kolorów -->
-  
+  <!-- Legenda i stopka jak wcześniej -->
   <div id="legend" style="margin-top: 50px; color: #fff; text-align: left; padding-left: 20px;">
     <h2>Legenda:</h2>
     <ul>
@@ -269,13 +277,14 @@
         <strong>Uczestnicy:</strong> Jan Biniek, Jarosław Dominiak, Dominik Jarecki, Łukasz Koryciński, Konrad Kowalak, Jakub Nowakowski, Karol Patecki, Paweł Rup, Jacek Rzewuski, Marcin Ziółkowski
       </li>
       <li>
-        <span style="color: white;">&#11044;</span> Biały - Pozostali z zespołu przeciwnego dzisiejszemu prowadzącemu (69,99% szans)<br>
+        <span style="color: white;">&#11044;</span> Biały - Pozostali (69,99% szans)<br>
         <strong>Uczestnicy:</strong> Jakub Archacki, Adam Dąbrowski, Anna Jurga, Ola Kołakowska, Mateusz Kubacki, Albert Sadowski, Tomas Vesely
       </li>
     </ul>
   </div>
-<p style="margin-top: 40px; font-size: 10px; color: #888;">
-  v. 0.1.3 by Jakub Archacki & Chat GPT Company Sp. z o. o.
-</p>
+
+  <p style="margin-top: 40px; font-size: 10px; color: #888;">
+    v. 0.1.4 by Jakub Archacki & Chat GPT Company Sp. z o. o.
+  </p>
 </body>
 </html>
