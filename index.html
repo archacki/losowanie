@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl">
-  <head>
+<head>
   <meta charset="UTF-8">
   <title>Losowanie</title>
   <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
@@ -123,162 +123,151 @@
 
   <canvas class="confetti" id="confetti"></canvas>
 
-  <audio id="carousel-sound" src="cyrk.mp3"></audio>
+  <!-- Zmienione źródła dźwięków -->
+ <audio id="carousel-sound" src="cyrk.mp3"></audio>
   <audio id="fanfare-sound" src="fanfare.mp3"></audio>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-  const allNames = [
-  { name: "Stanisław Czujko", color: "gold" },
-  { name: "Paulina Kustra", color: "red" },
-  { name: "Adrian Domański", color: "pink" },
-  { name: "Maciej Sputowski", color: "violet" },
-  { name: "Jan Biniek", color: "blue" },
-  { name: "Jarosław Dominiak", color: "blue" },
-  { name: "Dominik Jarecki", color: "blue" },
-  { name: "Łukasz Koryciński", color: "blue" },
-  { name: "Konrad Kowalak", color: "blue" },
-  { name: "Jakub Nowakowski", color: "blue" },
-  { name: "Karol Patecki", color: "blue" },
-  { name: "Paweł Rup", color: "blue" },
-  { name: "Jacek Rzewuski", color: "blue" },
-  { name: "Marcin Ziółkowski", color: "blue" },
-  { name: "Jakub Archacki", color: "white" },
-  { name: "Adam Dąbrowski", color: "white" },
-  { name: "Anna Jurga", color: "white" },
-  { name: "Ola Kołakowska", color: "white" },
-  { name: "Mateusz Kubacki", color: "white" },
-  { name: "Albert Sadowski", color: "white" },
-  { name: "Tomas Vesely", color: "white" }
-];
+  const allNames = {
+    gold: ["Stanisław Czujko"],
+    red: ["Paulina Kustra"],
+    pink: ["Adrian Domański"],
+    violet: ["Maciej Sputowski"],
+    blue: [
+      "Jan Biniek", "Jarosław Dominiak", "Dominik Jarecki", "Łukasz Koryciński",
+      "Konrad Kowalak", "Jakub Nowakowski", "Karol Patecki", "Paweł Rup",
+      "Jacek Rzewuski", "Marcin Ziółkowski"
+    ],
+    white: [
+      "Jakub Archacki", "Adam Dąbrowski", "Anna Jurga", "Ola Kołakowska",
+      "Mateusz Kubacki", "Albert Sadowski", "Tomas Vesely"
+    ]
+  };
 
-const probabilities = [
-  { rarity: "gold", chance: 0.1 },
-  { rarity: "red", chance: 0.8 },
-  { rarity: "pink", chance: 1.2 },
-  { rarity: "violet", chance: 1.9 },
-  { rarity: "blue", chance: 33 },
-  { rarity: "white", chance: 63 }
-];
+  const probabilities = [
+    { rarity: "gold", chance: 0.1 },
+    { rarity: "red", chance: 0.8 },
+    { rarity: "pink", chance: 1.2 },
+    { rarity: "violet", chance: 1.9 },
+    { rarity: "blue", chance: 33 },
+    { rarity: "white", chance: 63 }
+  ];
 
-function getRandomRarity() {
-  const rand = Math.random() * 100;
-  let sum = 0;
-  for (let i = 0; i < probabilities.length; i++) {
-    sum += probabilities[i].chance;
-    if (rand < sum) {
-      return probabilities[i].rarity;
-    }
-  }
-  return "white";
-}
-
-function getRandomPersonByRarity(rarity) {
-  const filteredNames = allNames.filter(person => person.color === rarity);
-  return filteredNames[Math.floor(Math.random() * filteredNames.length)];
-}
-
-function populateNames() {
-  const strip = document.getElementById("scroll-strip");
-  strip.innerHTML = "";
-  for (let i = 0; i < 150; i++) {
-    const rarity = getRandomRarity();
-    const person = getRandomPersonByRarity(rarity);
-    const div = document.createElement("div");
-    div.className = `name ${rarity}`;
-    div.textContent = person.name;
-    strip.appendChild(div);
-  }
-}
-
-function reset() {
-  const strip = document.getElementById("scroll-strip");
-  strip.style.transform = "translateX(0px)";
-  strip.innerHTML = "";
-  document.getElementById("result").style.display = "none";
-}
-
-function startRoll() {
-  const button = document.getElementById("roll-btn");
-  button.disabled = true;
-  button.textContent = "Wyrokuję...";
-
-  reset();
-  populateNames();
-
-  const carouselSound = document.getElementById("carousel-sound");
-  const fanfareSound = document.getElementById("fanfare-sound");
-  carouselSound.play();
-
-  const strip = document.getElementById("scroll-strip");
-  const nameWidth = 120;
-  const containerWidth = 600;
-  const centerOffset = containerWidth / 2 - nameWidth / 2;
-  const total = strip.children.length;
-  const finalTargetIndex = Math.floor(Math.random() * total);
-  const finalTargetOffset = finalTargetIndex * nameWidth;
-  const stopOffset = finalTargetOffset - centerOffset;
-
-  // Nowe podejście do czasów animacji
-  const minDuration = 16000;  // Minimalny czas animacji
-  const maxDuration = 20000;  // Maksymalny czas animacji
-  const totalDuration = Math.random() * (maxDuration - minDuration) + minDuration; // Losujemy czas trwania
-
-  // Animacja przewijania
- const stripAnimation = strip.animate([
-  { transform: `translateX(0px)` }, // Początkowy stan
-  { transform: `translateX(-${stopOffset}px)` } // Końcowy stan
-], {
-  duration: 15000, // Stały czas trwania animacji (15 sekund)
-  easing: 'cubic-bezier(0.1, 1, 0.2, 1)', // Przyspieszenie na początku, zwolnienie na końcu
-  fill: 'forwards'
-});
-
-
-  stripAnimation.onfinish = () => {
-    carouselSound.pause();
-    carouselSound.currentTime = 0;
-    fanfareSound.play();
-
-    const scrollContainer = document.querySelector(".scroll-container");
-    const stripRect = strip.getBoundingClientRect();
-    const containerRect = scrollContainer.getBoundingClientRect();
-    const centerX = containerRect.left + containerRect.width / 2;
-
-    let winner = null;
-    for (const child of strip.children) {
-      const childRect = child.getBoundingClientRect();
-      if (childRect.left <= centerX && childRect.right >= centerX) {
-        winner = child;
-        break;
+  function getRandomRarity() {
+    const rand = Math.random() * 100;
+    let sum = 0;
+    for (let i = 0; i < probabilities.length; i++) {
+      sum += probabilities[i].chance;
+      if (rand < sum) {
+        return probabilities[i].rarity;
       }
     }
+    return "white";
+  }
 
-    const result = document.getElementById("result");
-    if (winner) {
-      result.innerHTML = `
-        <span style="font-size: 30px; font-weight: bold; text-transform: uppercase;">
-          👑 NASTĘPCĄ TRONU PERŁOWEGO KRÓLESTWA ZOSTAJE <strong class="${winner.classList[1]}">${winner.textContent}</strong>! 👑
-        </span>
-        <br>
-        <span style="font-size: 16px; font-weight: normal;">
-          <strong>Tuż po wschodzie słońca w dniu 13 maja roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom!</strong>
-        </span>
-      `;
-      result.style.display = "block";
-      confetti({ particleCount: 200, spread: 120, origin: { y: 0.4 } });
-    } else {
-      result.innerHTML = `❓ Nie udało się ustalić zwycięzcy.`;
-      result.style.display = "block";
+  function getRandomPersonByRarity(rarity) {
+    const list = allNames[rarity];
+    return list[Math.floor(Math.random() * list.length)];
+  }
+
+  function populateNames() {
+    const strip = document.getElementById("scroll-strip");
+    strip.innerHTML = "";
+    for (let i = 0; i < 150; i++) {
+      const rarity = getRandomRarity();
+      const name = getRandomPersonByRarity(rarity);
+      const div = document.createElement("div");
+      div.className = `name ${rarity}`;
+      div.textContent = name;
+      strip.appendChild(div);
     }
+  }
 
-    button.disabled = false;
-    button.textContent = "Wskaż ponownie!";
-  };
-}
+  function reset() {
+    const strip = document.getElementById("scroll-strip");
+    strip.style.transform = "translateX(0px)";
+    strip.innerHTML = "";
+    document.getElementById("result").style.display = "none";
+  }
 
-document.getElementById("roll-btn").addEventListener("click", startRoll);
+  function startRoll() {
+    const button = document.getElementById("roll-btn");
+    button.disabled = true;
+    button.textContent = "Wyrokuję...";
 
+    reset(); // wyczyść poprzednie losowanie
+    populateNames();
+
+    const carouselSound = document.getElementById("carousel-sound");
+    const fanfareSound = document.getElementById("fanfare-sound");
+    carouselSound.play();
+
+    const strip = document.getElementById("scroll-strip");
+    const nameWidth = 120;
+    const containerWidth = 600;
+    const centerOffset = containerWidth / 2 - nameWidth / 2;
+    const total = strip.children.length;
+    const finalTargetIndex = Math.floor(Math.random() * total);
+    const finalTargetOffset = finalTargetIndex * nameWidth;
+    const stopOffset = finalTargetOffset - centerOffset;
+
+    const totalDistance = stopOffset;
+    const totalDuration = 15000;
+
+    const stripAnimation = strip.animate([
+      { transform: `translateX(0px)` },
+      { transform: `translateX(-${totalDistance}px)` }
+    ], {
+      duration: totalDuration,
+      easing: 'cubic-bezier(0.1, 1, 0.4, 1)',
+      fill: 'forwards'
+    });
+
+    stripAnimation.onfinish = () => {
+      carouselSound.pause();
+      carouselSound.currentTime = 0;
+      fanfareSound.play();
+
+      const scrollContainer = document.querySelector(".scroll-container");
+      const stripRect = strip.getBoundingClientRect();
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const centerX = containerRect.left + containerRect.width / 2;
+
+      let winner = null;
+      for (const child of strip.children) {
+        const childRect = child.getBoundingClientRect();
+        if (childRect.left <= centerX && childRect.right >= centerX) {
+          winner = child;
+          break;
+        }
+      }
+
+      const result = document.getElementById("result");
+      if (winner) {
+        result.innerHTML = `
+          <span style="font-size: 30px; font-weight: bold; text-transform: uppercase;">
+            👑 NASTĘPCĄ TRONU PERŁOWEGO KRÓLESTWA ZOSTAJE <strong class="${winner.classList[1]}">${winner.textContent}</strong>! 👑
+          </span>
+          <br>
+          <span style="font-size: 16px; font-weight: normal;">
+            <strong>Tuż po wschodzie słońca w dniu 13 maja roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</strong>
+          </span>
+        `;
+        result.style.display = "block";
+        confetti({ particleCount: 200, spread: 120, origin: { y: 0.4 } });
+      } else {
+        result.innerHTML = `❓ Nie udało się ustalić zwycięzcy.`;
+        result.style.display = "block";
+      }
+
+      // Przywracamy przycisk do aktywnego stanu
+      button.disabled = false;
+      button.textContent = "Wskaż ponownie!";
+    };
+  }
+
+  document.getElementById("roll-btn").addEventListener("click", startRoll);
 </script>
 
 
@@ -313,8 +302,7 @@ document.getElementById("roll-btn").addEventListener("click", startRoll);
   </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #888;">
-    v. 0.1.29 by Jakub Archacki & Chat GPT Company Sp. z o. o.
+    v. 0.1.30 by Jakub Archacki & Chat GPT Company Sp. z o. o.
   </p>
 </body>
 </html>
-      
