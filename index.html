@@ -207,13 +207,32 @@
     const nameWidth = 120;
     const containerWidth = 600;
     const centerOffset = containerWidth / 2 - nameWidth / 2;
-    const total = strip.children.length;
-    const finalTargetIndex = Math.floor(Math.random() * total);
-    const finalTargetOffset = finalTargetIndex * nameWidth;
-    const stopOffset = finalTargetOffset - centerOffset;
+  const nameWidth = 120;
+const containerWidth = 600;
+const centerOffset = containerWidth / 2 - nameWidth / 2;
+const totalDuration = 15000; // 15 sekund
+const speed = 500; // pikseli na sekundę — ustalasz sobie tutaj stałą prędkość
 
-    const totalDistance = stopOffset;
-    const totalDuration = 15000;
+// Obliczamy jaką odległość pasek przejedzie
+const totalDistance = speed * (totalDuration / 1000);
+
+// Obliczamy ostateczne przesunięcie, aby los znalazł się na środku
+const totalNamesWidth = strip.children.length * nameWidth;
+let stopOffset = Math.min(totalDistance, totalNamesWidth - containerWidth); 
+
+// Jeśli pasek nie ma tylu elementów, dociągnij do maksymalnej możliwej pozycji
+const randomOffset = Math.random() * (stopOffset - nameWidth); // Mała losowość, by nie zawsze kończyło się idealnie na końcu
+stopOffset = randomOffset;
+
+// Ustawiamy animację
+const stripAnimation = strip.animate([
+  { transform: `translateX(0px)` },
+  { transform: `translateX(-${stopOffset}px)` }
+], {
+  duration: totalDuration,
+  easing: 'linear', // Teraz będzie stała prędkość
+  fill: 'forwards'
+});
 
     const stripAnimation = strip.animate([
       { transform: `translateX(0px)` },
@@ -302,7 +321,7 @@
   </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #888;">
-    v. 0.1.12 by Jakub Archacki & Chat GPT Company Sp. z o. o.
+    v. 0.1.13 beta by Jakub Archacki & Chat GPT Company Sp. z o. o.
   </p>
 </body>
 </html>
