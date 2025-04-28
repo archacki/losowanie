@@ -220,8 +220,8 @@ function startRoll() {
   const stopOffset = finalTargetOffset - centerOffset;
 
   // Nowe podejście do czasów animacji
-  const minDuration = 13000;  // Minimalny czas animacji
-  const maxDuration = 16000;  // Maksymalny czas animacji
+  const minDuration = 16000;  // Minimalny czas animacji
+  const maxDuration = 20000;  // Maksymalny czas animacji
   const totalDuration = Math.random() * (maxDuration - minDuration) + minDuration; // Losujemy czas trwania
 
   // Animacja przewijania
@@ -229,8 +229,8 @@ function startRoll() {
   { transform: `translateX(0px)` }, // Początkowy stan
   { transform: `translateX(-${stopOffset}px)` } // Końcowy stan
 ], {
-  duration: totalDuration,
-  easing: 'cubic-bezier(0.4, 0, 0.2, 1)', // Szybkie rozpędzenie na początku, potem zwolnienie
+  duration: 15000, // Stały czas trwania animacji (15 sekund)
+  easing: 'cubic-bezier(0.1, 1, 0.2, 1)', // Przyspieszenie na początku, zwolnienie na końcu
   fill: 'forwards'
 });
 
@@ -313,7 +313,7 @@ document.getElementById("roll-btn").addEventListener("click", startRoll);
   </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #888;">
-    v. 0.1.28 by Jakub Archacki & Chat GPT Company Sp. z o. o.
+    v. 0.1.29 by Jakub Archacki & Chat GPT Company Sp. z o. o.
   </p>
 </body>
 </html>
