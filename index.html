@@ -123,8 +123,7 @@
 
   <canvas class="confetti" id="confetti"></canvas>
 
-  <!-- Zmienione źródła dźwięków -->
- <audio id="carousel-sound" src="cyrk.mp3"></audio>
+  <audio id="carousel-sound" src="cyrk.mp3"></audio>
   <audio id="fanfare-sound" src="fanfare.mp3"></audio>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -196,7 +195,7 @@
     button.disabled = true;
     button.textContent = "Wyrokuję...";
 
-    reset();
+    reset(); 
     populateNames();
 
     const carouselSound = document.getElementById("carousel-sound");
@@ -207,25 +206,22 @@
     const nameWidth = 120;
     const containerWidth = 600;
     const centerOffset = containerWidth / 2 - nameWidth / 2;
-    const totalDuration = 15000; // 15 sekund
-    const speed = 500; // pikseli na sekundę
+    const total = strip.children.length;
+    const finalTargetIndex = Math.floor(Math.random() * total);
+    const finalTargetOffset = finalTargetIndex * nameWidth;
+    const stopOffset = finalTargetOffset - centerOffset;
 
-    const totalDistance = speed * (totalDuration / 1000);
-
-    const totalNamesWidth = strip.children.length * nameWidth;
-    let maxScrollable = totalNamesWidth - containerWidth;
-    let stopOffset = Math.min(totalDistance, maxScrollable);
-
-    // Dodajemy losowość zatrzymania się
-    const randomOffset = Math.random() * (stopOffset - nameWidth);
-    stopOffset = randomOffset;
+    // Dynamicznie zmieniamy długość animacji by było szybkie na starcie
+    const minDuration = 13000;
+    const maxDuration = 16000;
+    const totalDuration = Math.random() * (maxDuration - minDuration) + minDuration;
 
     const stripAnimation = strip.animate([
       { transform: `translateX(0px)` },
       { transform: `translateX(-${stopOffset}px)` }
     ], {
       duration: totalDuration,
-      easing: 'linear',
+      easing: 'cubic-bezier(0.1, 1, 0.4, 1)',
       fill: 'forwards'
     });
 
@@ -256,7 +252,7 @@
           </span>
           <br>
           <span style="font-size: 16px; font-weight: normal;">
-            <strong>Tuż po wschodzie słońca w dniu 13 maja roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</strong>
+            <strong>Tuż po wschodzie słońca w dniu 13 maja roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom!</strong>
           </span>
         `;
         result.style.display = "block";
@@ -273,7 +269,6 @@
 
   document.getElementById("roll-btn").addEventListener("click", startRoll);
 </script>
-
 
 
   <div id="legend" style="margin-top: 50px; color: #fff; text-align: left; padding-left: 20px;">
@@ -307,7 +302,7 @@
   </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #888;">
-    v. 0.1.14 beta by Jakub Archacki & Chat GPT Company Sp. z o. o.
+    v. 0.1.15 by Jakub Archacki & Chat GPT Company Sp. z o. o.
   </p>
 </body>
 </html>
