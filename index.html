@@ -196,7 +196,7 @@
     button.disabled = true;
     button.textContent = "Wyrokuję...";
 
-    reset(); // wyczyść poprzednie losowanie
+    reset();
     populateNames();
 
     const carouselSound = document.getElementById("carousel-sound");
@@ -207,39 +207,25 @@
     const nameWidth = 120;
     const containerWidth = 600;
     const centerOffset = containerWidth / 2 - nameWidth / 2;
-  const nameWidth = 120;
-const containerWidth = 600;
-const centerOffset = containerWidth / 2 - nameWidth / 2;
-const totalDuration = 15000; // 15 sekund
-const speed = 500; // pikseli na sekundę — ustalasz sobie tutaj stałą prędkość
+    const totalDuration = 15000; // 15 sekund
+    const speed = 500; // pikseli na sekundę
 
-// Obliczamy jaką odległość pasek przejedzie
-const totalDistance = speed * (totalDuration / 1000);
+    const totalDistance = speed * (totalDuration / 1000);
 
-// Obliczamy ostateczne przesunięcie, aby los znalazł się na środku
-const totalNamesWidth = strip.children.length * nameWidth;
-let stopOffset = Math.min(totalDistance, totalNamesWidth - containerWidth); 
+    const totalNamesWidth = strip.children.length * nameWidth;
+    let maxScrollable = totalNamesWidth - containerWidth;
+    let stopOffset = Math.min(totalDistance, maxScrollable);
 
-// Jeśli pasek nie ma tylu elementów, dociągnij do maksymalnej możliwej pozycji
-const randomOffset = Math.random() * (stopOffset - nameWidth); // Mała losowość, by nie zawsze kończyło się idealnie na końcu
-stopOffset = randomOffset;
-
-// Ustawiamy animację
-const stripAnimation = strip.animate([
-  { transform: `translateX(0px)` },
-  { transform: `translateX(-${stopOffset}px)` }
-], {
-  duration: totalDuration,
-  easing: 'linear', // Teraz będzie stała prędkość
-  fill: 'forwards'
-});
+    // Dodajemy losowość zatrzymania się
+    const randomOffset = Math.random() * (stopOffset - nameWidth);
+    stopOffset = randomOffset;
 
     const stripAnimation = strip.animate([
       { transform: `translateX(0px)` },
-      { transform: `translateX(-${totalDistance}px)` }
+      { transform: `translateX(-${stopOffset}px)` }
     ], {
       duration: totalDuration,
-      easing: 'cubic-bezier(0.1, 1, 0.4, 1)',
+      easing: 'linear',
       fill: 'forwards'
     });
 
@@ -280,7 +266,6 @@ const stripAnimation = strip.animate([
         result.style.display = "block";
       }
 
-      // Przywracamy przycisk do aktywnego stanu
       button.disabled = false;
       button.textContent = "Wskaż ponownie!";
     };
@@ -288,6 +273,7 @@ const stripAnimation = strip.animate([
 
   document.getElementById("roll-btn").addEventListener("click", startRoll);
 </script>
+
 
 
   <div id="legend" style="margin-top: 50px; color: #fff; text-align: left; padding-left: 20px;">
@@ -321,7 +307,7 @@ const stripAnimation = strip.animate([
   </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #888;">
-    v. 0.1.13 beta by Jakub Archacki & Chat GPT Company Sp. z o. o.
+    v. 0.1.14 beta by Jakub Archacki & Chat GPT Company Sp. z o. o.
   </p>
 </body>
 </html>
