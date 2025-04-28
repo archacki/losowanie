@@ -219,17 +219,23 @@ function startRoll() {
   const finalTargetOffset = finalTargetIndex * nameWidth;
   const stopOffset = finalTargetOffset - centerOffset;
 
-  // Dynamicznie zmieniamy długość animacji by było szybkie na starcie
-  const minDuration = 18000;
-  const maxDuration = 26000;
-  const totalDuration = Math.random() * (maxDuration - minDuration) + minDuration;
+  // Nowe podejście do czasów animacji
+  const minDuration = 13000;  // Minimalny czas animacji
+  const maxDuration = 16000;  // Maksymalny czas animacji
+  const totalDuration = Math.random() * (maxDuration - minDuration) + minDuration; // Losujemy czas trwania
 
+  // Animacja przewijania
   const stripAnimation = strip.animate([
-    { transform: `translateX(0px)` },
-    { transform: `translateX(-${stopOffset}px)` }
+    { 
+      transform: `translateX(0px)`, 
+      easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)',  // Przyspieszanie na początku
+    },
+    { 
+      transform: `translateX(-${stopOffset}px)`, 
+      easing: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)', // Zwolnienie na końcu
+    }
   ], {
     duration: totalDuration,
-    easing: 'cubic-bezier(0.1, 1, 0.4, 1)',
     fill: 'forwards'
   });
 
@@ -311,7 +317,7 @@ document.getElementById("roll-btn").addEventListener("click", startRoll);
   </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #888;">
-    v. 0.1.26 by Jakub Archacki & Chat GPT Company Sp. z o. o.
+    v. 0.1.27 by Jakub Archacki & Chat GPT Company Sp. z o. o.
   </p>
 </body>
 </html>
