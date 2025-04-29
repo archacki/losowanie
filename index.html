@@ -129,29 +129,36 @@
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-  const allNames = {
-    gold: ["Stanisław Czujko"],
-    red: ["Paulina Kustra"],
-    pink: ["Adrian Domański"],
-    violet: ["Maciej Sputowski"],
-    blue: [
-      "Jan Biniek", "Jarosław Dominiak", "Dominik Jarecki", "Łukasz Koryciński",
-      "Konrad Kowalak", "Jakub Nowakowski", "Karol Patecki", "Paweł Rup",
-      "Jacek Rzewuski", "Marcin Ziółkowski"
-    ],
-    white: [
-      "Jakub Archacki", "Adam Dąbrowski", "Anna Jurga",
-      "Mateusz Kubacki", "Albert Sadowski", "Tomas Vesely"
-    ]
-  };
+ const allNames = [
+  { firstName: "Stanisław", lastName: "Czujko", color: "red" },
+  { firstName: "Paulina", lastName: "Kustra", color: "pink" },
+  { firstName: "Adrian", lastName: "Domański", color: "violet" },
+  { firstName: "Maciej", lastName: "Sputowski", color: "blue" },
+  { firstName: "Jan", lastName: "Biniek", color: "white" },
+  { firstName: "Jarosław", lastName: "Dominiak", color: "white" },
+  { firstName: "Dominik", lastName: "Jarecki", color: "white" },
+  { firstName: "Łukasz", lastName: "Koryciński", color: "white" },
+  { firstName: "Konrad", lastName: "Kowalak", color: "white" },
+  { firstName: "Jakub", lastName: "Nowakowski", color: "white" },
+  { firstName: "Karol", lastName: "Patecki", color: "white" },
+  { firstName: "Paweł", lastName: "Rup", color: "white" },
+  { firstName: "Jacek", lastName: "Rzewuski", color: "white" },
+  { firstName: "Marcin", lastName: "Ziółkowski", color: "white" },
+  { firstName: "Jakub", lastName: "Archacki", color: "blue" },
+  { firstName: "Adam", lastName: "Dąbrowski", color: "blue" },
+  { firstName: "Anna", lastName: "Jurga", color: "blue" },
+  { firstName: "Mateusz", lastName: "Kubacki", color: "blue" },
+  { firstName: "Albert", lastName: "Sadowski", color: "blue" },
+  { firstName: "Tomas", lastName: "Vesely", color: "blue" }
+];
 
   const probabilities = [
     { rarity: "gold", chance: 0.1 },
     { rarity: "red", chance: 0.8 },
     { rarity: "pink", chance: 1.2 },
     { rarity: "violet", chance: 1.9 },
-    { rarity: "blue", chance: 33 },
-    { rarity: "white", chance: 63 }
+    { rarity: "blue", chance: 21 },
+    { rarity: "white", chance: 75 }
   ];
 
   function getRandomRarity() {
@@ -251,7 +258,7 @@
           </span>
           <br>
           <span style="font-size: 16px; font-weight: normal;">
-            <strong>Tuż po wschodzie słońca w dniu 13 maja roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</strong>
+            <strong>Tuż po wschodzie słońca w dniu 27 maja roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</strong>
           </span>
         `;
         result.style.display = "block";
@@ -276,33 +283,33 @@
   <ul>
     <li>
       <span style="color: gold;">&#11044;</span> <span style="color: gold;">Złoty - Obecny Perłowy Władca oraz mistrz ceremonii losowania (0,1% szans)</span><br>
-      <strong>Uczestnicy:</strong> Stanisław Czujko
+      <strong>Uczestnicy:</strong> Mateusz Kubacki
     </li>
     <li>
       <span style="color: red;">&#11044;</span> <span style="color: red;">Czerwony - Ten, który obecnemu berła i korony odstąpił (0,8% szans)</span><br>
-      <strong>Uczestnicy:</strong> Paulina Kustra
+      <strong>Uczestnicy:</strong> Stanisław Czujko
     </li>
     <li>
       <span style="color: pink;">&#11044;</span> <span style="color: pink;">Różowy - Władca, co przed miesiącem koronę dzierżył (1,2% szans)</span><br>
-      <strong>Uczestnicy:</strong> Adrian Domański
+      <strong>Uczestnicy:</strong> Paulina Kustra
     </li>
     <li>
       <span style="color: violet;">&#11044;</span> <span style="color: violet;">Fioletowy - Koronowany w dawności, o którym pamiętają tylko najstarsi mędrcy (1,9% szans)</span><br>
-      <strong>Uczestnicy:</strong> Maciej Sputowski
+      <strong>Uczestnicy:</strong> Adrian Domański
     </li>
     <li>
-      <span style="color: deepskyblue;">&#11044;</span> <span style="color: deepskyblue;">Niebieski - Władca sprzed minionych (dwumiesięcznych) czasów wraz z krajanami obecnego miłościwie nam panującego  (33% szans, 3,3% na osobę)</span><br>
+      <span style="color: deepskyblue;">&#11044;</span> <span style="color: deepskyblue;">Niebieski - Władca sprzed minionych (dwumiesięcznych) czasów wraz z krajanami obecnego miłościwie nam panującego  (21% szans, 3% na osobę)</span><br>
+      <strong>Uczestnicy:</strong> Maciej Sputowski, Jakub Archacki, Adam Dąbrowski, Anna Jurga, Albert Sadowski, Tomas Vesely
+    </li>
+    <li>
+      <span style="color: white;">&#11044;</span> <span style="color: white;">Biały - Ostałe pospólstwo (75% szans, 7,5% na osobę)</span><br>
       <strong>Uczestnicy:</strong> Jan Biniek, Jarosław Dominiak, Dominik Jarecki, Łukasz Koryciński, Konrad Kowalak, Jakub Nowakowski, Karol Patecki, Paweł Rup, Jacek Rzewuski, Marcin Ziółkowski
-    </li>
-    <li>
-      <span style="color: white;">&#11044;</span> <span style="color: white;">Biały - Ostałe pospólstwo (63% szans, 10,5% na osobę)</span><br>
-      <strong>Uczestnicy:</strong> Jakub Archacki, Adam Dąbrowski, Anna Jurga, Mateusz Kubacki, Albert Sadowski, Tomas Vesely
     </li>
   </ul>
 </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #888;">
-    v. 0.1.40 by Jakub Archacki & Chat GPT Company Sp. z o. o.    <br>
+    v. 0.2.1 by Jakub Archacki & Chat GPT Company Sp. z o. o.    <br>
     Uczestnicy zaktualizowani w dn. 29-04-2025
   </p>
 </body>
