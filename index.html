@@ -129,28 +129,21 @@
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
- const allNames = [
-  { firstName: "Stanisław", lastName: "Czujko", color: "red" },
-  { firstName: "Paulina", lastName: "Kustra", color: "pink" },
-  { firstName: "Adrian", lastName: "Domański", color: "violet" },
-  { firstName: "Maciej", lastName: "Sputowski", color: "blue" },
-  { firstName: "Jan", lastName: "Biniek", color: "white" },
-  { firstName: "Jarosław", lastName: "Dominiak", color: "white" },
-  { firstName: "Dominik", lastName: "Jarecki", color: "white" },
-  { firstName: "Łukasz", lastName: "Koryciński", color: "white" },
-  { firstName: "Konrad", lastName: "Kowalak", color: "white" },
-  { firstName: "Jakub", lastName: "Nowakowski", color: "white" },
-  { firstName: "Karol", lastName: "Patecki", color: "white" },
-  { firstName: "Paweł", lastName: "Rup", color: "white" },
-  { firstName: "Jacek", lastName: "Rzewuski", color: "white" },
-  { firstName: "Marcin", lastName: "Ziółkowski", color: "white" },
-  { firstName: "Jakub", lastName: "Archacki", color: "blue" },
-  { firstName: "Adam", lastName: "Dąbrowski", color: "blue" },
-  { firstName: "Anna", lastName: "Jurga", color: "blue" },
-  { firstName: "Mateusz", lastName: "Kubacki", color: "blue" },
-  { firstName: "Albert", lastName: "Sadowski", color: "blue" },
-  { firstName: "Tomas", lastName: "Vesely", color: "blue" }
-];
+const allNames = {
+    gold: ["Mateusz Kubacki"],
+    red: ["Stanisław Czujko"],
+    pink: ["Paulina Kustra"],
+    violet: ["Adrian Domański"],
+    blue: [
+      "Maciej Sputowski",  "Jakub Archacki", "Adam Dąbrowski", "Anna Jurga",
+      "Albert Sadowski", "Tomas Vesely"
+    ],
+    white: [
+     "Jan Biniek", "Jarosław Dominiak", "Dominik Jarecki", "Łukasz Koryciński",
+      "Konrad Kowalak", "Jakub Nowakowski", "Karol Patecki", "Paweł Rup",
+      "Jacek Rzewuski", "Marcin Ziółkowski"
+    ]
+  };
 
   const probabilities = [
     { rarity: "gold", chance: 0.1 },
@@ -173,10 +166,10 @@
     return "white";
   }
 
-function getRandomPersonByRarity(rarity) {
-  const list = allNames.filter(person => person.color === rarity);
-  return list[Math.floor(Math.random() * list.length)];
-}
+ function getRandomPersonByRarity(rarity) {
+    const list = allNames[rarity];
+    return list[Math.floor(Math.random() * list.length)];
+  }
 
   function populateNames() {
     const strip = document.getElementById("scroll-strip");
@@ -309,7 +302,7 @@ function getRandomPersonByRarity(rarity) {
 </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #888;">
-    v. 0.2.2 by Jakub Archacki & Chat GPT Company Sp. z o. o.    <br>
+    v. 0.2.3 by Jakub Archacki & Chat GPT Company Sp. z o. o.    <br>
     Uczestnicy zaktualizowani w dn. 29-04-2025
   </p>
 </body>
