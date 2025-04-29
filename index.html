@@ -173,10 +173,10 @@
     return "white";
   }
 
-  function getRandomPersonByRarity(rarity) {
-    const list = allNames[rarity];
-    return list[Math.floor(Math.random() * list.length)];
-  }
+function getRandomPersonByRarity(rarity) {
+  const list = allNames.filter(person => person.color === rarity);
+  return list[Math.floor(Math.random() * list.length)];
+}
 
   function populateNames() {
     const strip = document.getElementById("scroll-strip");
@@ -309,7 +309,7 @@
 </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #888;">
-    v. 0.2.1 by Jakub Archacki & Chat GPT Company Sp. z o. o.    <br>
+    v. 0.2.2 by Jakub Archacki & Chat GPT Company Sp. z o. o.    <br>
     Uczestnicy zaktualizowani w dn. 29-04-2025
   </p>
 </body>
