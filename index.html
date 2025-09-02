@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Losowanie</title>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'MedievalSharp', sans-serif;
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+      overflow-x: hidden;
+    }
+
+    .scroll-container {
+      position: relative;
+      width: 600px;
+      height: 120px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 3px solid #fff;
+      border-radius: 10px;
+      background: #222;
+    }
+
+    .scroll-strip {
+      display: flex;
+      will-change: transform;
+    }
+
+    .name {
+      flex: 0 0 120px;
+      height: 120px;
+      text-align: center;
+      font-size: 15px;
+      background: #333;
+      border-right: 1px solid #555;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      word-wrap: break-word;
+      white-space: normal;
+    }
+
+    .gold { color: gold; }
+    .red { color: red; }
+    .pink { color: pink; }
+    .violet { color: violet; }
+    .blue { color: deepskyblue; }
+    .white { color: white; }
+
+    .indicator {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: red;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+
+    #result {
+      margin-top: 30px;
+      font-size: 22px;
+      color: yellow;
+      display: none;
+    }
+
+    #result small {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 28px;
+      font-size: 18px;
+      font-family: 'MedievalSharp', sans-serif;
+      background: #f5f0dc;
+      color: #000;
+      border: 2px solid #bfa76f;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+      background-size: cover;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Wylosuj godnego następcę tronu!</h1>
+
+  <div class="scroll-container">
+    <div class="scroll-strip" id="scroll-strip"></div>
+    <div class="indicator"></div>
+  </div>
+
+  <button id="roll-btn">Wskaż wybrańca!</button>
+
+  <div id="result"></div>
+
+  <canvas class="confetti" id="confetti"></canvas>
+
+  <!-- Zmienione źródła dźwięków -->
+ <audio id="carousel-sound" src="cyrk.mp3"></audio>
+  <audio id="fanfare-sound" src="fanfare.mp3"></audio>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+const allNames = {
+  
+    gold: ["Albert Sadowski"],
+    red: ["Tomas Vesely"],
+    pink: ["Karol Patecki"],
+    violet: ["Paulina Kustra"],  
+    blue: ["Adam Dąbrowski", "Mateusz Kubacki", "Jakub Archacki", "Anna Jurga", "Adrian Domański", "Maciej Sputowski"],
+    white: ["Jakub Nowakowski", "Jan Biniek", "Stanisław Czujko", "Dominik Jarecki", "Konrad Kowalak", "Jacek Rzewuski", "Marcin Ziółkowski"]
+};
+  const probabilities = [
+    { rarity: "gold", chance: 0.1 },
+    { rarity: "red", chance: 0.8 },
+    { rarity: "pink", chance: 1.2 },
+    { rarity: "violet", chance: 1.9 },
+    { rarity: "blue", chance: 20 },
+    { rarity: "white", chance: 76 }
+  ];
+
+  function getRandomRarity() {
+    const rand = Math.random() * 100;
+    let sum = 0;
+    for (let i = 0; i < probabilities.length; i++) {
+      sum += probabilities[i].chance;
+      if (rand < sum) {
+        return probabilities[i].rarity;
+      }
+    }
+    return "white";
+  }
+
+ function getRandomPersonByRarity(rarity) {
+    const list = allNames[rarity];
+    return list[Math.floor(Math.random() * list.length)];
+  }
+
+  function populateNames() {
+    const strip = document.getElementById("scroll-strip");
+    strip.innerHTML = "";
+    for (let i = 0; i < 150; i++) {
+      const rarity = getRandomRarity();
+      const name = getRandomPersonByRarity(rarity);
+      const div = document.createElement("div");
+      div.className = `name ${rarity}`;
+      div.textContent = name;
+      strip.appendChild(div);
+    }
+  }
+
+  function reset() {
+    const strip = document.getElementById("scroll-strip");
+    strip.style.transform = "translateX(0px)";
+    strip.innerHTML = "";
+    document.getElementById("result").style.display = "none";
+  }
+
+  function startRoll() {
+    const button = document.getElementById("roll-btn");
+    button.disabled = true;
+    button.textContent = "Wyrokuję...";
+
+    reset(); // wyczyść poprzednie losowanie
+    populateNames();
+
+    const carouselSound = document.getElementById("carousel-sound");
+    const fanfareSound = document.getElementById("fanfare-sound");
+    carouselSound.play();
+
+    const strip = document.getElementById("scroll-strip");
+    const nameWidth = 120;
+    const containerWidth = 600;
+    const centerOffset = containerWidth / 2 - nameWidth / 2;
+    const total = strip.children.length;
+    const finalTargetIndex = Math.floor(Math.random() * total);
+    const finalTargetOffset = finalTargetIndex * nameWidth;
+    const stopOffset = finalTargetOffset - centerOffset;
+
+    const totalDistance = stopOffset;
+    const totalDuration = 15000;
+
+    const stripAnimation = strip.animate([
+      { transform: `translateX(0px)` },
+      { transform: `translateX(-${totalDistance}px)` }
+    ], {
+      duration: totalDuration,
+      easing: 'cubic-bezier(0.1, 1, 0.4, 1)',
+      fill: 'forwards'
+    });
+
+    stripAnimation.onfinish = () => {
+      carouselSound.pause();
+      carouselSound.currentTime = 0;
+      fanfareSound.play();
+
+      const scrollContainer = document.querySelector(".scroll-container");
+      const stripRect = strip.getBoundingClientRect();
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const centerX = containerRect.left + containerRect.width / 2;
+
+      let winner = null;
+      for (const child of strip.children) {
+        const childRect = child.getBoundingClientRect();
+        if (childRect.left <= centerX && childRect.right >= centerX) {
+          winner = child;
+          break;
+        }
+      }
+
+      const result = document.getElementById("result");
+      if (winner) {
+        result.innerHTML = `
+          <span style="font-size: 30px; font-weight: bold; text-transform: uppercase;">
+            👑 NASTĘPCĄ TRONU PERŁOWEGO KRÓLESTWA ZOSTAJE <strong class="${winner.classList[1]}">${winner.textContent}</strong> ! 👑
+          </span>
+          <br>
+          <span style="font-size: 16px; font-weight: normal;">
+            <strong>Tuż po wschodzie słońca w dniu 16 września roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</strong>
+          </span>
+        `;
+        result.style.display = "block";
+        confetti({ particleCount: 200, spread: 120, origin: { y: 0.4 } });
+      } else {
+        result.innerHTML = `❓ Nie udało się ustalić zwycięzcy.`;
+        result.style.display = "block";
+      }
+
+      // Przywracamy przycisk do aktywnego stanu
+      button.disabled = false;
+      button.textContent = "Wskaż ponownie!";
+    };
+  }
+
+  document.getElementById("roll-btn").addEventListener("click", startRoll);
+</script>
+
+
+<div id="legend" style="margin-top: 50px; color: #fff; text-align: left; padding-left: 20px; line-height: 1.8;">
+  <h2>Legenda:</h2>
+  <ul>
+    <li>
+      <span style="color: gold;">&#11044;</span> <span style="color: gold;">Złoty - Obecny Perłowy Władca oraz mistrz ceremonii losowania (0,1% szans)</span><br>
+      <strong>Uczestnicy:</strong> Albert Sadowski
+    </li>
+    <li>
+      <span style="color: red;">&#11044;</span> <span style="color: red;">Czerwony - Ten, który obecnemu berła i korony odstąpił (0,8% szans)</span><br>
+      <strong>Uczestnicy:</strong> Tomas Vesely
+    </li>
+    <li>
+      <span style="color: pink;">&#11044;</span> <span style="color: pink;">Różowy - Władca, co przed miesiącem koronę dzierżył (1,2% szans)</span><br>
+      <strong>Uczestnicy:</strong> Karol Patecki
+    </li>
+    <li>
+      <span style="color: violet;">&#11044;</span> <span style="color: violet;">Fioletowy - Koronowany w dawności, o którym pamiętają tylko najstarsi mędrcy (1,9% szans)</span><br>
+      <strong>Uczestnicy:</strong> Paulina Kustra
+    </li>
+    <li>
+      <span style="color: deepskyblue;">&#11044;</span> <span style="color: deepskyblue;">Niebieski - Władca sprzed minionych (dwumiesięcznych) czasów wraz z krajanami obecnego miłościwie nam panującego  (20% szans, 3,33% na osobę)</span><br>
+      <strong>Uczestnicy:</strong> Adam Dąbrowski, Mateusz Kubacki, Adrian Domański, Jakub Archacki, Anna Jurga, Maciej Sputowski.
+    </li>
+    <li>
+      <span style="color: white;">&#11044;</span> <span style="color: white;">Biały - Ostałe pospólstwo (76% szans, 10,85% na osobę)</span><br>
+      <strong>Uczestnicy:</strong> Jakub Nowakowski, Jan Biniek, Stanisław Czujko, Dominik Jarecki, Konrad Kowalak, Jacek Rzewuski, Marcin Ziółkowski. 
+    </li>
+  </ul>
+</div>
+
+  <p style="margin-top: 40px; font-size: 10px; color: #888;">
+    v. 0.2.13 by Jakub Archacki & Chat GPT Company Sp. z o. o.    <br>
+    Uczestnicy zaktualizowani w dn. 19-08-2025
+  </p>
+</body>
+</html>
