@@ -327,10 +327,13 @@
           }
         }
 
-             const result = document.getElementById("result");
+      const result = document.getElementById("result");
       if (winner) {
+        console.log("Wylosowano:", winner.textContent);
+        console.log("Czy to Jakub?", winner.textContent.trim() === "Jakub Archacki");
+        
         // Easter egg dla Jakuba Archackiego
-        if (winner.textContent === "Jakub Archacki") {
+        if (winner.textContent.trim() === "Jakub Archacki") {
           triggerMatrixGlitch();
           result.innerHTML = `
             <span style="font-size: 40px; font-weight: bold; color: #ff0000; text-shadow: 0 0 20px #ff0000;">
