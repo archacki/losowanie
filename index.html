@@ -285,12 +285,12 @@
     }
 
     const allNames = {
-      gold: ["Albert Sadowski"],
-      red: ["Jacek Rzewuski"],
-      pink: ["Adrian Domański"],
-      violet: ["Maciej Sputowski"],
-      blue: ["Jan Biniek", "Mateusz Kubacki", "Adam Dąbrowski", "Jakub Archacki", "Anna Jurga", "Paulina Kustra", "Tomas Vesely"],
-      white: ["Jakub Nowakowski", "Karol Patecki", "Dominik Jarecki", "Marcin Ziółkowski"]
+      gold: ["Adam Dąbrowski"],
+      red: ["Albert Sadowski"],
+      pink: ["Jacek Rzewuski"],
+      violet: ["Adrian Domański"],
+      blue: ["Maciej Sputowski", "Mateusz Kubacki", "Jakub Archacki", "Anna Jurga", "Paulina Kustra", "Tomas Vesely"],
+      white: ["Jan Biniek", "Jakub Nowakowski", "Karol Patecki", "Dominik Jarecki", "Marcin Ziółkowski"]
     };
 
     const probabilities = [
@@ -298,8 +298,8 @@
       { rarity: "red", chance: 0.8 },
       { rarity: "pink", chance: 1.2 },
       { rarity: "violet", chance: 1.9 },
-      { rarity: "blue", chance: 46 },
-      { rarity: "white", chance: 55 }
+      { rarity: "blue", chance: 31 },
+      { rarity: "white", chance: 65 }
     ];
 
     function getRandomRarity() {
@@ -352,7 +352,11 @@
       const containerWidth = 600;
       const centerOffset = containerWidth / 2 - nameWidth / 2;
       const total = strip.children.length;
-      const finalTargetIndex = Math.floor(Math.random() * total);
+      
+      // Losuj tylko spośród ostatnich 30 elementów dla stałej prędkości
+      const minIndex = total - 30;
+      const maxIndex = total - 5;
+      const finalTargetIndex = Math.floor(Math.random() * (maxIndex - minIndex) + minIndex);
       const finalTargetOffset = finalTargetIndex * nameWidth;
       const stopOffset = finalTargetOffset - centerOffset;
 
@@ -411,7 +415,7 @@
               </span>
               <br>
               <span style="font-size: 16px; font-weight: normal;">
-                <strong>Tuż po wschodzie słońca w dniu 23 grudnia roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</strong>
+                <strong>Tuż po wschodzie słońca w okolicach dnia 6 stycznia roku pańskiego 2026 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</strong>
               </span>
             `;
             result.style.display = "block";
@@ -441,33 +445,33 @@
     <ul>
       <li>
         <span style="color: gold;">●</span> <span style="color: gold;">Złoty - Obecny Perłowy Władca oraz mistrz ceremonii losowania (0,1% szans)</span><br>
-        <strong>Uczestnicy:</strong> Albert Sadowski
+        <strong>Uczestnicy:</strong> Adam Dąbrowski
       </li>
       <li>
         <span style="color: #ff6b6b;">●</span> <span style="color: #ff6b6b;">Czerwony - Ten, który obecnemu berła i korony odstąpił (0,8% szans)</span><br>
-        <strong>Uczestnicy:</strong> Jacek Rzewuski
+        <strong>Uczestnicy:</strong> Albert Sadowski
       </li>
       <li>
         <span style="color: #ffb3d9;">●</span> <span style="color: #ffb3d9;">Różowy - Władca, co przed miesiącem koronę dzierżył (1,2% szans)</span><br>
-        <strong>Uczestnicy:</strong> Adrian Domański
+        <strong>Uczestnicy:</strong> Jacek Rzewuski
       </li>
       <li>
         <span style="color: #c299ff;">●</span> <span style="color: #c299ff;">Fioletowy - Koronowany w dawności, o którym pamiętają tylko najstarsi mędrcy (1,9% szans)</span><br>
-        <strong>Uczestnicy:</strong> Maciej Sputowski
+        <strong>Uczestnicy:</strong> Adrian Domański
       </li>
       <li>
-        <span style="color: #87ceeb;">●</span> <span style="color: #87ceeb;">Niebieski - Władca sprzed minionych (dwumiesięcznych) czasów wraz z krajanami obecnego miłościwie nam panującego (46% szans, 5,85% na osobę)</span><br>
-        <strong>Uczestnicy:</strong> Jan Biniek, Mateusz Kubacki, Tomas Vesely, Paulina Kustra, Adam Dąbrowski, Jakub Archacki, Anna Jurga.
+        <span style="color: #87ceeb;">●</span> <span style="color: #87ceeb;">Niebieski - Władca sprzed minionych (dwumiesięcznych) czasów wraz z krajanami obecnego miłościwie nam panującego (31% szans, 5,16% na osobę)</span><br>
+        <strong>Uczestnicy:</strong> Maciej Sputowski, Mateusz Kubacki, Tomas Vesely, Paulina Kustra, Jakub Archacki, Anna Jurga.
       </li>
       <li>
-        <span style="color: white;">●</span> <span style="color: white;">Biały - Ostałe pospólstwo (55% szans, 13,75% na osobę)</span><br>
-        <strong>Uczestnicy:</strong> Jakub Nowakowski, Karol Patecki, Dominik Jarecki, Marcin Ziółkowski.
+        <span style="color: white;">●</span> <span style="color: white;">Biały - Ostałe pospólstwo (65% szans, 13% na osobę)</span><br>
+        <strong>Uczestnicy:</strong> Jan Biniek, Jakub Nowakowski, Karol Patecki, Dominik Jarecki, Marcin Ziółkowski.
       </li>
     </ul>
   </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #88b3cc; position: relative; z-index: 10;">
-    v. 0.4.6 by Jakub Archacki & Chat GPT Company Sp. z o. o. ❄️<br>
+    v. 0.4.8 by Jakub Archacki & Chat GPT Company Sp. z o. o. ❄️<br>
     Zimowa edycja - Uczestnicy zaktualizowani w dn. 25-11-2025
   </p>
 </body>
