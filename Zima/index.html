@@ -192,10 +192,6 @@
 
   <canvas class="confetti" id="confetti"></canvas>
 
-    <!-- Zmienione źródła dźwięków -->
- <audio id="carousel-sound" src="cyrk.mp3"></audio>
-  <audio id="fanfare-sound" src="fanfare.mp3"></audio>
-
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
     // Tworzenie śniegu
@@ -292,9 +288,7 @@
       reset();
       populateNames();
 
-      const carouselSound = document.getElementById("carousel-sound");
-      const fanfareSound = document.getElementById("fanfare-sound");
-      carouselSound.play();
+
 
       const strip = document.getElementById("scroll-strip");
       const nameWidth = 120;
@@ -318,9 +312,6 @@
       });
 
       stripAnimation.onfinish = () => {
-        carouselSound.pause();
-        carouselSound.currentTime = 0;
-        fanfareSound.play();
 
         const scrollContainer = document.querySelector(".scroll-container");
         const stripRect = strip.getBoundingClientRect();
