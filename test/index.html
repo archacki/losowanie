@@ -352,7 +352,11 @@
       const containerWidth = 600;
       const centerOffset = containerWidth / 2 - nameWidth / 2;
       const total = strip.children.length;
-      const finalTargetIndex = Math.floor(Math.random() * total);
+      
+      // Losuj tylko spośród ostatnich 30 elementów dla stałej prędkości
+      const minIndex = total - 30;
+      const maxIndex = total - 5;
+      const finalTargetIndex = Math.floor(Math.random() * (maxIndex - minIndex) + minIndex);
       const finalTargetOffset = finalTargetIndex * nameWidth;
       const stopOffset = finalTargetOffset - centerOffset;
 
@@ -467,7 +471,7 @@
   </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #88b3cc; position: relative; z-index: 10;">
-    v. 0.4.6 by Jakub Archacki & Chat GPT Company Sp. z o. o. ❄️<br>
+    v. 0.4.7 by Jakub Archacki & Chat GPT Company Sp. z o. o. ❄️<br>
     Zimowa edycja - Uczestnicy zaktualizowani w dn. 25-11-2025
   </p>
 </body>
