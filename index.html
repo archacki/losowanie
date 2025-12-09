@@ -7,53 +7,11 @@
   <style>
     body {
       font-family: 'MedievalSharp', sans-serif;
-      background: linear-gradient(to bottom, #0a1628 0%, #1a2a4a 50%, #2a3a5a 100%);
+      background: #111;
       color: #fff;
       text-align: center;
       padding: 50px;
       overflow-x: hidden;
-      position: relative;
-      min-height: 100vh;
-    }
-
-    /* Efekt śniegu */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      color: #fff;
-      font-size: 1em;
-      pointer-events: none;
-      z-index: 1;
-      animation: fall linear infinite;
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(100vh);
-      }
-    }
-
-    /* Zimowe ozdoby */
-    .winter-decoration {
-      position: fixed;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    .icicle {
-      position: absolute;
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-top: 40px solid rgba(200, 230, 255, 0.7);
-    }
-
-    h1 {
-      text-shadow: 0 0 20px rgba(135, 206, 250, 0.8), 0 0 30px rgba(135, 206, 250, 0.5);
-      position: relative;
-      z-index: 10;
     }
 
     .scroll-container {
@@ -62,11 +20,9 @@
       height: 120px;
       margin: 0 auto;
       overflow: hidden;
-      border: 3px solid #b8d4ff;
+      border: 3px solid #fff;
       border-radius: 10px;
-      background: rgba(34, 34, 34, 0.9);
-      box-shadow: 0 0 30px rgba(135, 206, 250, 0.5), inset 0 0 20px rgba(135, 206, 250, 0.2);
-      z-index: 10;
+      background: #222;
     }
 
     .scroll-strip {
@@ -79,7 +35,7 @@
       height: 120px;
       text-align: center;
       font-size: 15px;
-      background: rgba(51, 51, 51, 0.9);
+      background: #333;
       border-right: 1px solid #555;
       display: flex;
       flex-direction: column;
@@ -89,40 +45,36 @@
       white-space: normal;
     }
 
-    .gold { color: gold; text-shadow: 0 0 10px gold; }
-    .red { color: #ff6b6b; text-shadow: 0 0 10px #ff6b6b; }
-    .pink { color: #ffb3d9; text-shadow: 0 0 10px #ffb3d9; }
-    .violet { color: #c299ff; text-shadow: 0 0 10px #c299ff; }
-    .blue { color: #87ceeb; text-shadow: 0 0 10px #87ceeb; }
-    .white { color: white; text-shadow: 0 0 10px white; }
+    .gold { color: gold; }
+    .red { color: red; }
+    .pink { color: pink; }
+    .violet { color: violet; }
+    .blue { color: deepskyblue; }
+    .white { color: white; }
 
     .indicator {
       position: absolute;
       top: 0;
       bottom: 0;
       left: 50%;
-      width: 3px;
-      background: linear-gradient(to bottom, #ff4444, #ff0000, #ff4444);
+      width: 2px;
+      background: red;
       transform: translateX(-50%);
       z-index: 10;
-      box-shadow: 0 0 10px #ff0000;
     }
 
     #result {
       margin-top: 30px;
       font-size: 22px;
-      color: #ffeb3b;
+      color: yellow;
       display: none;
-      text-shadow: 0 0 15px rgba(255, 235, 59, 0.8);
-      position: relative;
-      z-index: 10;
     }
 
     #result small {
       display: block;
       margin-top: 10px;
       font-size: 14px;
-      color: #cce7ff;
+      color: #ccc;
     }
 
     button {
@@ -130,26 +82,19 @@
       padding: 12px 28px;
       font-size: 18px;
       font-family: 'MedievalSharp', sans-serif;
-      background: linear-gradient(to bottom, #e8f4ff, #b8d4ff);
+      background: #f5f0dc;
       color: #000;
-      border: 2px solid #87ceeb;
+      border: 2px solid #bfa76f;
       border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 0 20px rgba(135, 206, 250, 0.6);
-      position: relative;
-      z-index: 10;
-      transition: all 0.3s;
-    }
-
-    button:hover {
-      box-shadow: 0 0 30px rgba(135, 206, 250, 0.9);
-      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+      background-size: cover;
     }
 
     button:disabled {
       background: #ccc;
       cursor: not-allowed;
-      box-shadow: none;
     }
 
     .confetti {
@@ -161,70 +106,29 @@
       pointer-events: none;
       z-index: 100;
     }
-
-    #legend {
-      margin-top: 50px;
-      color: #cce7ff;
-      text-align: left;
-      padding-left: 20px;
-      line-height: 1.8;
-      position: relative;
-      z-index: 10;
-      background: rgba(10, 22, 40, 0.7);
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 20px rgba(135, 206, 250, 0.3);
-    }
   </style>
 </head>
 <body>
 
-  <h1>❄️ Wylosuj godnego następcę tronu! ❄️</h1>
+  <h1>Wylosuj godnego następcę tronu!</h1>
 
   <div class="scroll-container">
     <div class="scroll-strip" id="scroll-strip"></div>
     <div class="indicator"></div>
   </div>
 
-  <button id="roll-btn">⛄ Wskaż wybrańca! ⛄</button>
+  <button id="roll-btn">Wskaż wybrańca!</button>
 
   <div id="result"></div>
 
   <canvas class="confetti" id="confetti"></canvas>
 
+  <!-- Zmienione źródła dźwięków -->
+ <audio id="carousel-sound" src="cyrk.mp3"></audio>
+  <audio id="fanfare-sound" src="fanfare.mp3"></audio>
+
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script>
-    // Tworzenie śniegu
-    function createSnowflake() {
-      const snowflake = document.createElement('div');
-      snowflake.classList.add('snowflake');
-      snowflake.innerHTML = '❄';
-      snowflake.style.left = Math.random() * 100 + 'vw';
-      snowflake.style.animationDuration = Math.random() * 3 + 5 + 's';
-      snowflake.style.opacity = Math.random();
-      snowflake.style.fontSize = (Math.random() * 1 + 0.5) + 'em';
-      document.body.appendChild(snowflake);
-
-      setTimeout(() => {
-        snowflake.remove();
-      }, 8000);
-    }
-
-    // Generowanie śniegu co 200ms
-    setInterval(createSnowflake, 200);
-
-    // Tworzenie sopli lodu na górze
-    function createIcicles() {
-      for (let i = 0; i < 15; i++) {
-        const icicle = document.createElement('div');
-        icicle.className = 'icicle winter-decoration';
-        icicle.style.left = (i * 7) + '%';
-        icicle.style.top = '0px';
-        document.body.appendChild(icicle);
-      }
-    }
-    createIcicles();
-
+<script>
     const allNames = {
       gold: ["Albert Sadowski"],
       red: ["Jacek Rzewuski"],
@@ -243,131 +147,126 @@
       { rarity: "white", chance: 55 }
     ];
 
-    function getRandomRarity() {
-      const rand = Math.random() * 100;
-      let sum = 0;
-      for (let i = 0; i < probabilities.length; i++) {
-        sum += probabilities[i].chance;
-        if (rand < sum) {
-          return probabilities[i].rarity;
-        }
-      }
-      return "white";
-    }
-
-    function getRandomPersonByRarity(rarity) {
-      const list = allNames[rarity];
-      return list[Math.floor(Math.random() * list.length)];
-    }
-
-    function populateNames() {
-      const strip = document.getElementById("scroll-strip");
-      strip.innerHTML = "";
-      for (let i = 0; i < 150; i++) {
-        const rarity = getRandomRarity();
-        const name = getRandomPersonByRarity(rarity);
-        const div = document.createElement("div");
-        div.className = `name ${rarity}`;
-        div.textContent = name;
-        strip.appendChild(div);
+  function getRandomRarity() {
+    const rand = Math.random() * 100;
+    let sum = 0;
+    for (let i = 0; i < probabilities.length; i++) {
+      sum += probabilities[i].chance;
+      if (rand < sum) {
+        return probabilities[i].rarity;
       }
     }
+    return "white";
+  }
 
-    function reset() {
-      const strip = document.getElementById("scroll-strip");
-      strip.style.transform = "translateX(0px)";
-      strip.innerHTML = "";
-      document.getElementById("result").style.display = "none";
+ function getRandomPersonByRarity(rarity) {
+    const list = allNames[rarity];
+    return list[Math.floor(Math.random() * list.length)];
+  }
+
+  function populateNames() {
+    const strip = document.getElementById("scroll-strip");
+    strip.innerHTML = "";
+    for (let i = 0; i < 150; i++) {
+      const rarity = getRandomRarity();
+      const name = getRandomPersonByRarity(rarity);
+      const div = document.createElement("div");
+      div.className = `name ${rarity}`;
+      div.textContent = name;
+      strip.appendChild(div);
     }
+  }
 
-    function startRoll() {
-      const button = document.getElementById("roll-btn");
-      button.disabled = true;
-      button.textContent = "Wyrokuję...";
+  function reset() {
+    const strip = document.getElementById("scroll-strip");
+    strip.style.transform = "translateX(0px)";
+    strip.innerHTML = "";
+    document.getElementById("result").style.display = "none";
+  }
 
-      reset();
-      populateNames();
+  function startRoll() {
+    const button = document.getElementById("roll-btn");
+    button.disabled = true;
+    button.textContent = "Wyrokuję...";
 
-      const carouselSound = document.getElementById("carousel-sound");
-      const fanfareSound = document.getElementById("fanfare-sound");
-      carouselSound.play();
+    reset(); // wyczyść poprzednie losowanie
+    populateNames();
 
-      const strip = document.getElementById("scroll-strip");
-      const nameWidth = 120;
-      const containerWidth = 600;
-      const centerOffset = containerWidth / 2 - nameWidth / 2;
-      const total = strip.children.length;
-      const finalTargetIndex = Math.floor(Math.random() * total);
-      const finalTargetOffset = finalTargetIndex * nameWidth;
-      const stopOffset = finalTargetOffset - centerOffset;
+    const carouselSound = document.getElementById("carousel-sound");
+    const fanfareSound = document.getElementById("fanfare-sound");
+    carouselSound.play();
 
-      const totalDistance = stopOffset;
-      const totalDuration = 15000;
+    const strip = document.getElementById("scroll-strip");
+    const nameWidth = 120;
+    const containerWidth = 600;
+    const centerOffset = containerWidth / 2 - nameWidth / 2;
+    const total = strip.children.length;
+    const finalTargetIndex = Math.floor(Math.random() * total);
+    const finalTargetOffset = finalTargetIndex * nameWidth;
+    const stopOffset = finalTargetOffset - centerOffset;
 
-      const stripAnimation = strip.animate([
-        { transform: `translateX(0px)` },
-        { transform: `translateX(-${totalDistance}px)` }
-      ], {
-        duration: totalDuration,
-        easing: 'cubic-bezier(0.1, 1, 0.4, 1)',
-        fill: 'forwards'
-      });
+    const totalDistance = stopOffset;
+    const totalDuration = 15000;
 
-      stripAnimation.onfinish = () => {
-        carouselSound.pause();
-        carouselSound.currentTime = 0;
-        fanfareSound.play();
+    const stripAnimation = strip.animate([
+      { transform: `translateX(0px)` },
+      { transform: `translateX(-${totalDistance}px)` }
+    ], {
+      duration: totalDuration,
+      easing: 'cubic-bezier(0.1, 1, 0.4, 1)',
+      fill: 'forwards'
+    });
 
-        const scrollContainer = document.querySelector(".scroll-container");
-        const stripRect = strip.getBoundingClientRect();
-        const containerRect = scrollContainer.getBoundingClientRect();
-        const centerX = containerRect.left + containerRect.width / 2;
+    stripAnimation.onfinish = () => {
+      carouselSound.pause();
+      carouselSound.currentTime = 0;
+      fanfareSound.play();
 
-        let winner = null;
-        for (const child of strip.children) {
-          const childRect = child.getBoundingClientRect();
-          if (childRect.left <= centerX && childRect.right >= centerX) {
-            winner = child;
-            break;
-          }
+      const scrollContainer = document.querySelector(".scroll-container");
+      const stripRect = strip.getBoundingClientRect();
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const centerX = containerRect.left + containerRect.width / 2;
+
+      let winner = null;
+      for (const child of strip.children) {
+        const childRect = child.getBoundingClientRect();
+        if (childRect.left <= centerX && childRect.right >= centerX) {
+          winner = child;
+          break;
         }
+      }
 
-        const result = document.getElementById("result");
-        if (winner) {
-          result.innerHTML = `
-            <span style="font-size: 30px; font-weight: bold; text-transform: uppercase;">
-              👑 NASTĘPCĄ TRONU PERŁOWEGO KRÓLESTWA ZOSTAJE <strong class="${winner.classList[1]}">${winner.textContent}</strong> ! 👑
-            </span>
-            <br>
-            <span style="font-size: 16px; font-weight: normal;">
-              <strong>Tuż po wschodzie słońca w dniu 23 grudnia roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</strong>
-            </span>
-          `;
-          result.style.display = "block";
-          
-          // Zimowe konfetti (niebiesko-białe)
-          confetti({
-            particleCount: 150,
-            spread: 120,
-            origin: { y: 0.4 },
-            colors: ['#ffffff', '#87ceeb', '#b8d4ff', '#e8f4ff']
-          });
-        } else {
-          result.innerHTML = `❓ Nie udało się ustalić zwycięzcy.`;
-          result.style.display = "block";
-        }
+      const result = document.getElementById("result");
+      if (winner) {
+        result.innerHTML = `
+          <span style="font-size: 30px; font-weight: bold; text-transform: uppercase;">
+            👑 NASTĘPCĄ TRONU PERŁOWEGO KRÓLESTWA ZOSTAJE <strong class="${winner.classList[1]}">${winner.textContent}</strong> ! 👑
+          </span>
+          <br>
+          <span style="font-size: 16px; font-weight: normal;">
+            <strong>Tuż po wschodzie słońca w dniu w okolicy 11 listopada roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</strong>
+          </span>
+        `;
+        result.style.display = "block";
+        confetti({ particleCount: 200, spread: 120, origin: { y: 0.4 } });
+      } else {
+        result.innerHTML = `❓ Nie udało się ustalić zwycięzcy.`;
+        result.style.display = "block";
+      }
 
-        button.disabled = false;
-        button.textContent = "⛄ Wskaż ponownie! ⛄";
-      };
-    }
+      // Przywracamy przycisk do aktywnego stanu
+      button.disabled = false;
+      button.textContent = "Wskaż ponownie!";
+    };
+  }
 
-    document.getElementById("roll-btn").addEventListener("click", startRoll);
-  </script>
+  document.getElementById("roll-btn").addEventListener("click", startRoll);
+</script>
 
-  <div id="legend">
-    <h2>Legenda:</h2>
-    <ul>
+
+<div id="legend" style="margin-top: 50px; color: #fff; text-align: left; padding-left: 20px; line-height: 1.8;">
+  <h2>Legenda:</h2>
+  <ul>
       <li>
         <span style="color: gold;">●</span> <span style="color: gold;">Złoty - Obecny Perłowy Władca oraz mistrz ceremonii losowania (0,1% szans)</span><br>
         <strong>Uczestnicy:</strong> Albert Sadowski
@@ -393,10 +292,11 @@
         <strong>Uczestnicy:</strong> Jakub Nowakowski, Karol Patecki, Dominik Jarecki, Marcin Ziółkowski.
       </li>
     </ul>
-  </div>
+</div>
 
-  <p style="margin-top: 40px; font-size: 10px; color: #88b3cc; position: relative; z-index: 10;">
-    v. 0.4.1 by Jakub Archacki & Chat GPT Company Sp. z o. o. ❄️<br>
-    Zimowa edycja - Uczestnicy zaktualizowani w dn. 25-11-2025
+  <p style="margin-top: 40px; font-size: 10px; color: #888;">
+    v. 0.2.21 by Jakub Archacki & Chat GPT Company Sp. z o. o.    <br>
+    Uczestnicy zaktualizowani w dn. 28-10-2025
   </p>
 </body>
+</html>
