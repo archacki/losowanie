@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -17,7 +16,6 @@
       min-height: 100vh;
     }
 
-    /* Efekt śniegu */
     .snowflake {
       position: fixed;
       top: -10px;
@@ -35,7 +33,6 @@
       }
     }
 
-    /* Zimowe ozdoby */
     .winter-decoration {
       position: fixed;
       pointer-events: none;
@@ -211,10 +208,9 @@
       }, 8000);
     }
 
-    // Generowanie śniegu co 200ms
     setInterval(createSnowflake, 200);
 
-    // Tworzenie sopli lodu na górze
+    // Tworzenie sopli lodu
     function createIcicles() {
       for (let i = 0; i < 15; i++) {
         const icicle = document.createElement('div');
@@ -225,6 +221,68 @@
       }
     }
     createIcicles();
+
+    // FUNKCJA MATRIX GLITCH - ZDEFINIOWANA NA POCZĄTKU!
+    function triggerMatrixGlitch() {
+      const body = document.body;
+      const glitchOverlay = document.createElement('div');
+      glitchOverlay.id = 'matrix-glitch';
+      glitchOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+        z-index: 9999;
+        pointer-events: none;
+        font-family: 'Courier New', monospace;
+        color: #00ff00;
+        overflow: hidden;
+        animation: glitchFlicker 0.1s infinite;
+      `;
+
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes glitchFlicker {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.8; }
+        }
+        @keyframes matrixFall {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100vh); }
+        }
+      `;
+      document.head.appendChild(style);
+
+      body.appendChild(glitchOverlay);
+
+      for (let i = 0; i < 50; i++) {
+        const column = document.createElement('div');
+        column.style.cssText = `
+          position: absolute;
+          left: ${Math.random() * 100}%;
+          top: -100%;
+          font-size: ${Math.random() * 20 + 10}px;
+          animation: matrixFall ${Math.random() * 2 + 1}s linear infinite;
+          animation-delay: ${Math.random() * 2}s;
+          text-shadow: 0 0 5px #00ff00;
+        `;
+        column.textContent = String.fromCharCode(0x30A0 + Math.random() * 96);
+        glitchOverlay.appendChild(column);
+      }
+
+      setTimeout(() => {
+        glitchOverlay.style.background = 'rgba(255, 0, 0, 0.3)';
+        glitchOverlay.style.animation = 'none';
+      }, 1000);
+
+      setTimeout(() => {
+        glitchOverlay.style.opacity = '0';
+        glitchOverlay.style.transition = 'opacity 0.5s';
+        setTimeout(() => glitchOverlay.remove(), 500);
+      }, 3000);
+    }
 
     const allNames = {
       gold: ["Albert Sadowski"],
@@ -289,8 +347,6 @@
       reset();
       populateNames();
 
-
-
       const strip = document.getElementById("scroll-strip");
       const nameWidth = 120;
       const containerWidth = 600;
@@ -313,7 +369,6 @@
       });
 
       stripAnimation.onfinish = () => {
-
         const scrollContainer = document.querySelector(".scroll-container");
         const stripRect = strip.getBoundingClientRect();
         const containerRect = scrollContainer.getBoundingClientRect();
@@ -330,24 +385,44 @@
 
         const result = document.getElementById("result");
         if (winner) {
-          result.innerHTML = `
-            <span style="font-size: 30px; font-weight: bold; text-transform: uppercase;">
-              👑 NASTĘPCĄ TRONU PERŁOWEGO KRÓLESTWA ZOSTAJE <strong class="${winner.classList[1]}">${winner.textContent}</strong> ! 👑
-            </span>
-            <br>
-            <span style="font-size: 16px; font-weight: normal;">
-              <strong>Tuż po wschodzie słońca w dniu 23 grudnia roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</strong>
-            </span>
-          `;
-          result.style.display = "block";
-          
-          // Zimowe konfetti (niebiesko-białe)
-          confetti({
-            particleCount: 150,
-            spread: 120,
-            origin: { y: 0.4 },
-            colors: ['#ffffff', '#87ceeb', '#b8d4ff', '#e8f4ff']
-          });
+          const winnerName = winner.textContent.trim();
+          console.log("Wylosowano:", winnerName);
+
+          if (winnerName === "Jakub Archacki") {
+            triggerMatrixGlitch();
+            result.innerHTML = `
+              <span style="font-size: 40px; font-weight: bold; color: #ff0000; text-shadow: 0 0 20px #ff0000;">
+                ⚠️ ERROR ⚠️
+              </span>
+              <br>
+              <span style="font-size: 24px; color: #ff3333; font-family: 'Courier New', monospace;">
+                SYSTEM MALFUNCTION: NIE WYBRANO PROWADZĄCEGO
+              </span>
+              <br>
+              <span style="font-size: 14px; color: #ff6666; font-family: 'Courier New', monospace;">
+                [ERR_CODE: 0x4A41] - Przeprowadź losowanie ponownie
+              </span>
+            `;
+            result.style.display = "block";
+          } else {
+            result.innerHTML = `
+              <span style="font-size: 30px; font-weight: bold; text-transform: uppercase;">
+                👑 NASTĘPCĄ TRONU PERŁOWEGO KRÓLESTWA ZOSTAJE <strong class="${winner.classList[1]}">${winnerName}</strong> ! 👑
+              </span>
+              <br>
+              <span style="font-size: 16px; font-weight: normal;">
+                <strong>Tuż po wschodzie słońca w dniu 23 grudnia roku pańskiego 2025 dostąpi zaszczytu poprowadzenia wojsk przeciwko walecznym wykresom, a poddani jemu zwierzać się będą ze sprintowych celów osiągnięcia! Bywajcie!</strong>
+              </span>
+            `;
+            result.style.display = "block";
+            
+            confetti({
+              particleCount: 150,
+              spread: 120,
+              origin: { y: 0.4 },
+              colors: ['#ffffff', '#87ceeb', '#b8d4ff', '#e8f4ff']
+            });
+          }
         } else {
           result.innerHTML = `❓ Nie udało się ustalić zwycięzcy.`;
           result.style.display = "block";
@@ -392,7 +467,8 @@
   </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #88b3cc; position: relative; z-index: 10;">
-    v. 0.4.2 by Jakub Archacki & Chat GPT Company Sp. z o. o. ❄️<br>
+    v. 0.4.6 by Jakub Archacki & Chat GPT Company Sp. z o. o. ❄️<br>
     Zimowa edycja - Uczestnicy zaktualizowani w dn. 25-11-2025
   </p>
 </body>
+</html>
