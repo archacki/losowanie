@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: 'MedievalSharp', sans-serif;
-      background: linear-gradient(to bottom, #0a1628 0%, #1a2a4a 50%, #2a3a5a 100%);
+      background: linear-gradient(to bottom, #1a3a1a 0%, #2d5a2d 50%, #3a6b3a 100%);
       color: #fff;
       text-align: center;
       padding: 50px;
@@ -24,12 +24,12 @@
       pointer-events: none;
       z-index: 1;
       animation: fall linear infinite;
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+      text-shadow: 0 0 5px rgba(255, 200, 220, 0.8);
     }
 
     @keyframes fall {
       to {
-        transform: translateY(100vh);
+        transform: translateY(100vh) rotate(360deg);
       }
     }
 
@@ -45,11 +45,11 @@
       height: 0;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
-      border-top: 40px solid rgba(200, 230, 255, 0.7);
+      border-top: 40px solid rgba(144, 238, 144, 0.7);
     }
 
     h1 {
-      text-shadow: 0 0 20px rgba(135, 206, 250, 0.8), 0 0 30px rgba(135, 206, 250, 0.5);
+      text-shadow: 0 0 20px rgba(144, 238, 144, 0.8), 0 0 30px rgba(255, 182, 193, 0.5);
       position: relative;
       z-index: 10;
     }
@@ -60,10 +60,10 @@
       height: 120px;
       margin: 0 auto;
       overflow: hidden;
-      border: 3px solid #b8d4ff;
+      border: 3px solid #90ee90;
       border-radius: 10px;
-      background: rgba(34, 34, 34, 0.9);
-      box-shadow: 0 0 30px rgba(135, 206, 250, 0.5), inset 0 0 20px rgba(135, 206, 250, 0.2);
+      background: rgba(20, 40, 20, 0.9);
+      box-shadow: 0 0 30px rgba(144, 238, 144, 0.5), inset 0 0 20px rgba(255, 182, 193, 0.2);
       z-index: 10;
     }
 
@@ -77,8 +77,8 @@
       height: 120px;
       text-align: center;
       font-size: 15px;
-      background: rgba(51, 51, 51, 0.9);
-      border-right: 1px solid #555;
+      background: rgba(20, 50, 20, 0.9);
+      border-right: 1px solid #3a6b3a;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -120,7 +120,7 @@
       display: block;
       margin-top: 10px;
       font-size: 14px;
-      color: #cce7ff;
+      color: #b8f0b8;
     }
 
     button {
@@ -128,19 +128,19 @@
       padding: 12px 28px;
       font-size: 18px;
       font-family: 'MedievalSharp', sans-serif;
-      background: linear-gradient(to bottom, #e8f4ff, #b8d4ff);
+      background: linear-gradient(to bottom, #c8f7c5, #90ee90);
       color: #000;
-      border: 2px solid #87ceeb;
+      border: 2px solid #4caf50;
       border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 0 20px rgba(135, 206, 250, 0.6);
+      box-shadow: 0 0 20px rgba(144, 238, 144, 0.6);
       position: relative;
       z-index: 10;
       transition: all 0.3s;
     }
 
     button:hover {
-      box-shadow: 0 0 30px rgba(135, 206, 250, 0.9);
+      box-shadow: 0 0 30px rgba(144, 238, 144, 0.9);
       transform: translateY(-2px);
     }
 
@@ -162,29 +162,29 @@
 
     #legend {
       margin-top: 50px;
-      color: #cce7ff;
+      color: #b8f0b8;
       text-align: left;
       padding-left: 20px;
       line-height: 1.8;
       position: relative;
       z-index: 10;
-      background: rgba(10, 22, 40, 0.7);
+      background: rgba(10, 30, 10, 0.7);
       border-radius: 10px;
       padding: 20px;
-      box-shadow: 0 0 20px rgba(135, 206, 250, 0.3);
+      box-shadow: 0 0 20px rgba(144, 238, 144, 0.3);
     }
   </style>
 </head>
 <body>
 
-  <h1>❄️ Wylosuj godnego następcę tronu! ❄️</h1>
+  <h1>🌸 Wylosuj godnego następcę tronu! 🌸</h1>
 
   <div class="scroll-container">
     <div class="scroll-strip" id="scroll-strip"></div>
     <div class="indicator"></div>
   </div>
 
-  <button id="roll-btn">⛄ Wskaż wybrańca! ⛄</button>
+  <button id="roll-btn">🌷 Wskaż wybrańca! 🌷</button>
 
   <div id="result"></div>
 
@@ -192,11 +192,12 @@
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
-    // Tworzenie śniegu
+    // Tworzenie płatków kwiatów wiśni
     function createSnowflake() {
       const snowflake = document.createElement('div');
       snowflake.classList.add('snowflake');
-      snowflake.innerHTML = '❄';
+      const petals = ['🌸', '🌺', '🌼', '🌷', '✿', '❀'];
+      snowflake.innerHTML = petals[Math.floor(Math.random() * petals.length)];
       snowflake.style.left = Math.random() * 100 + 'vw';
       snowflake.style.animationDuration = Math.random() * 3 + 5 + 's';
       snowflake.style.opacity = Math.random();
@@ -210,13 +211,22 @@
 
     setInterval(createSnowflake, 200);
 
-    // Tworzenie sopli lodu
+    // Tworzenie liści / pączków na górze
     function createIcicles() {
+      const leafEmojis = ['🌿', '🍃', '🌱', '🌾', '☘️', '🌿', '🍀', '🌱', '🌿', '🍃', '🌾', '☘️', '🌱', '🍀', '🌿'];
       for (let i = 0; i < 15; i++) {
         const icicle = document.createElement('div');
-        icicle.className = 'icicle winter-decoration';
-        icicle.style.left = (i * 7) + '%';
-        icicle.style.top = '0px';
+        icicle.className = 'winter-decoration';
+        icicle.style.cssText = `
+          position: fixed;
+          left: ${(i * 7)}%;
+          top: 0px;
+          font-size: ${Math.random() * 10 + 16}px;
+          pointer-events: none;
+          z-index: 5;
+          filter: drop-shadow(0 2px 4px rgba(0,100,0,0.4));
+        `;
+        icicle.textContent = leafEmojis[i];
         document.body.appendChild(icicle);
       }
     }
@@ -424,7 +434,7 @@
               particleCount: 150,
               spread: 120,
               origin: { y: 0.4 },
-              colors: ['#ffffff', '#87ceeb', '#b8d4ff', '#e8f4ff']
+              colors: ['#90ee90', '#ffb3d9', '#c8f7c5', '#fff9c4', '#ffd1dc']
             });
           }
         } else {
@@ -433,7 +443,7 @@
         }
 
         button.disabled = false;
-        button.textContent = "⛄ Wskaż ponownie! ⛄";
+        button.textContent = "🌷 Wskaż ponownie! 🌷";
       };
     }
 
@@ -470,9 +480,9 @@
     </ul>
   </div>
 
-  <p style="margin-top: 40px; font-size: 10px; color: #88b3cc; position: relative; z-index: 10;">
-    v. 0.4.17 by Jakub Archacki & Chat GPT Company Sp. z o. o. ❄️<br>
-    Zimowa edycja - Uczestnicy zaktualizowani w dn. 10-03-2026
+  <p style="margin-top: 40px; font-size: 10px; color: #88cc88; position: relative; z-index: 10;">
+    v. 0.5.0 by Jakub Archacki & Chat GPT Company Sp. z o. o. 🌸<br>
+    Wiosenna edycja - Uczestnicy zaktualizowani w dn. 10-03-2026
   </p>
 </body>
 </html>
