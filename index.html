@@ -5,125 +5,175 @@
   <title>Losowanie</title>
   <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
   <style>
-  body {
-    font-family: 'MedievalSharp', sans-serif;
-    background: linear-gradient(to bottom, #00c6ff 0%, #7ee8fa 40%, #fff3b0 100%);
-    color: #fff;
-    text-align: center;
-    padding: 50px;
-    overflow-x: hidden;
-    position: relative;
-    min-height: 100vh;
-  }
-
-  .snowflake {
-    position: fixed;
-    top: -10px;
-    pointer-events: none;
-    z-index: 1;
-    animation: fall linear infinite;
-    text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
-  }
-
-  @keyframes fall {
-    to {
-      transform: translateY(100vh) rotate(360deg);
+    body {
+      font-family: 'MedievalSharp', sans-serif;
+      background: linear-gradient(to bottom, #1a3a1a 0%, #2d5a2d 50%, #3a6b3a 100%);
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
     }
-  }
 
-  h1 {
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
-    color: #ffffff;
-  }
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: #fff;
+      font-size: 1em;
+      pointer-events: none;
+      z-index: 1;
+      animation: fall linear infinite;
+      text-shadow: 0 0 5px rgba(255, 200, 220, 0.8);
+    }
 
-  .scroll-container {
-    position: relative;
-    width: 600px;
-    height: 120px;
-    margin: 0 auto;
-    overflow: hidden;
-    border: 3px solid #ffd166;
-    border-radius: 10px;
-    background: rgba(0, 90, 160, 0.85);
-    box-shadow: 0 0 25px rgba(255, 209, 102, 0.5);
-    z-index: 10;
-  }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
 
-  .scroll-strip {
-    display: flex;
-    will-change: transform;
-  }
+    .winter-decoration {
+      position: fixed;
+      pointer-events: none;
+      z-index: 5;
+    }
 
-  .name {
-    flex: 0 0 120px;
-    height: 120px;
-    text-align: center;
-    font-size: 15px;
-    background: rgba(0, 120, 200, 0.7);
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+    .icicle {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 40px solid rgba(144, 238, 144, 0.7);
+    }
 
-  .gold { color: #ffd700; text-shadow: 0 0 10px #ffd700; }
-  .red { color: #ff6b6b; text-shadow: 0 0 10px #ff6b6b; }
-  .pink { color: #ff9ecb; text-shadow: 0 0 10px #ff9ecb; }
-  .violet { color: #b28dff; text-shadow: 0 0 10px #b28dff; }
-  .blue { color: #4fc3f7; text-shadow: 0 0 10px #4fc3f7; }
-  .white { color: #ffffff; text-shadow: 0 0 10px #ffffff; }
+    h1 {
+      text-shadow: 0 0 20px rgba(144, 238, 144, 0.8), 0 0 30px rgba(255, 182, 193, 0.5);
+      position: relative;
+      z-index: 10;
+    }
 
-  .indicator {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 3px;
-    background: linear-gradient(to bottom, #ffd166, #ffb703);
-    transform: translateX(-50%);
-    z-index: 10;
-  }
+    .scroll-container {
+      position: relative;
+      width: 600px;
+      height: 120px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 3px solid #90ee90;
+      border-radius: 10px;
+      background: rgba(20, 40, 20, 0.9);
+      box-shadow: 0 0 30px rgba(144, 238, 144, 0.5), inset 0 0 20px rgba(255, 182, 193, 0.2);
+      z-index: 10;
+    }
 
-  #result {
-    margin-top: 30px;
-    font-size: 22px;
-    color: #fff;
-    display: none;
-    text-shadow: 0 0 10px rgba(255,255,255,0.7);
-    position: relative;
-    z-index: 10;
-  }
+    .scroll-strip {
+      display: flex;
+      will-change: transform;
+    }
 
-  button {
-    margin-top: 30px;
-    padding: 12px 28px;
-    font-size: 18px;
-    font-family: 'MedievalSharp', sans-serif;
-    background: linear-gradient(to bottom, #ffe066, #ffd166);
-    color: #000;
-    border: 2px solid #ffb703;
-    border-radius: 10px;
-    cursor: pointer;
-  }
+    .name {
+      flex: 0 0 120px;
+      height: 120px;
+      text-align: center;
+      font-size: 15px;
+      background: rgba(20, 50, 20, 0.9);
+      border-right: 1px solid #3a6b3a;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      word-wrap: break-word;
+      white-space: normal;
+    }
 
-  button:hover {
-    transform: translateY(-2px);
-  }
+    .gold { color: gold; text-shadow: 0 0 10px gold; }
+    .red { color: #ff6b6b; text-shadow: 0 0 10px #ff6b6b; }
+    .pink { color: #ffb3d9; text-shadow: 0 0 10px #ffb3d9; }
+    .violet { color: #c299ff; text-shadow: 0 0 10px #c299ff; }
+    .blue { color: #87ceeb; text-shadow: 0 0 10px #87ceeb; }
+    .white { color: white; text-shadow: 0 0 10px white; }
 
-  button:disabled {
-    background: #ccc;
-  }
+    .indicator {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      background: linear-gradient(to bottom, #ff4444, #ff0000, #ff4444);
+      transform: translateX(-50%);
+      z-index: 10;
+      box-shadow: 0 0 10px #ff0000;
+    }
 
-  #legend {
-    margin-top: 50px;
-    color: #fff;
-    text-align: left;
-    padding: 20px;
-    background: rgba(0, 80, 140, 0.6);
-    border-radius: 10px;
-  }
-</style>
+    #result {
+      margin-top: 30px;
+      font-size: 22px;
+      color: #ffeb3b;
+      display: none;
+      text-shadow: 0 0 15px rgba(255, 235, 59, 0.8);
+      position: relative;
+      z-index: 10;
+    }
+
+    #result small {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #b8f0b8;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 28px;
+      font-size: 18px;
+      font-family: 'MedievalSharp', sans-serif;
+      background: linear-gradient(to bottom, #c8f7c5, #90ee90);
+      color: #000;
+      border: 2px solid #4caf50;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(144, 238, 144, 0.6);
+      position: relative;
+      z-index: 10;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      box-shadow: 0 0 30px rgba(144, 238, 144, 0.9);
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    #legend {
+      margin-top: 50px;
+      color: #b8f0b8;
+      text-align: left;
+      padding-left: 20px;
+      line-height: 1.8;
+      position: relative;
+      z-index: 10;
+      background: rgba(10, 30, 10, 0.7);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(144, 238, 144, 0.3);
+    }
+  </style>
 </head>
 <body>
 
@@ -143,44 +193,43 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
     // Tworzenie płatków kwiatów wiśni
-   function createSnowflake() {
-  const el = document.createElement('div');
-  el.classList.add('snowflake');
+    function createSnowflake() {
+      const snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+      const petals = ['🌸', '🌺', '🌼', '🌷', '✿', '❀'];
+      snowflake.innerHTML = petals[Math.floor(Math.random() * petals.length)];
+      snowflake.style.left = Math.random() * 100 + 'vw';
+      snowflake.style.animationDuration = Math.random() * 3 + 5 + 's';
+      snowflake.style.opacity = Math.random();
+      snowflake.style.fontSize = (Math.random() * 1 + 0.5) + 'em';
+      document.body.appendChild(snowflake);
 
-  const summer = ['☀️','🌴','🌊','🏖️','🍉','🍹'];
-  el.innerHTML = summer[Math.floor(Math.random() * summer.length)];
-
-  el.style.left = Math.random() * 100 + 'vw';
-  el.style.animationDuration = Math.random() * 3 + 5 + 's';
-  el.style.fontSize = (Math.random() * 1 + 0.7) + 'em';
-
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 8000);
-}
+      setTimeout(() => {
+        snowflake.remove();
+      }, 8000);
+    }
 
     setInterval(createSnowflake, 200);
 
     // Tworzenie liści / pączków na górze
-function createIcicles() {
-  const summer = ['🌞','🌴','🏖️','🌊','🍍','🍉','🌺','🕶️','🍹','🏝️','☀️','🌴','🌊','🍉','🌞'];
-
-  for (let i = 0; i < 15; i++) {
-    const el = document.createElement('div');
-    el.className = 'winter-decoration';
-
-    el.style.cssText = `
-      position: fixed;
-      left: ${(i * 7)}%;
-      top: 0px;
-      font-size: ${Math.random() * 10 + 18}px;
-      pointer-events: none;
-      z-index: 5;
-    `;
-
-    el.textContent = summer[i];
-    document.body.appendChild(el);
-  }
-}
+    function createIcicles() {
+      const leafEmojis = ['🌿', '🍃', '🌱', '🌾', '☘️', '🌿', '🍀', '🌱', '🌿', '🍃', '🌾', '☘️', '🌱', '🍀', '🌿'];
+      for (let i = 0; i < 15; i++) {
+        const icicle = document.createElement('div');
+        icicle.className = 'winter-decoration';
+        icicle.style.cssText = `
+          position: fixed;
+          left: ${(i * 7)}%;
+          top: 0px;
+          font-size: ${Math.random() * 10 + 16}px;
+          pointer-events: none;
+          z-index: 5;
+          filter: drop-shadow(0 2px 4px rgba(0,100,0,0.4));
+        `;
+        icicle.textContent = leafEmojis[i];
+        document.body.appendChild(icicle);
+      }
+    }
     createIcicles();
 
     // FUNKCJA MATRIX GLITCH - ZDEFINIOWANA NA POCZĄTKU!
@@ -246,12 +295,12 @@ function createIcicles() {
     }
 
     const allNames = {
-      gold: ["Tomáš Veselý"],
-      red: ["Jakub Nowakowski"],
-      pink: ["Adrian Domański"],
-      violet: ["Adam Dąbrowski"],
-      blue: ["Jacek Rzewuski", "Maciej Sputowski", "Anna Jurga", "Jakub Archacki"],
-      white: ["Jan Biniek", "Karol Patecki", "Marcin Ziółkowski", "Dominik Jarecki"]
+      gold: ["Jan Biniek"],
+      red: ["Tomáš Veselý"],
+      pink: ["Jakub Nowakowski"],
+      violet: ["Adrian Domański"],
+      blue: ["Adam Dąbrowski", "Jacek Rzewuski", "Karol Patecki", "Marcin Ziółkowski", "Dominik Jarecki"],
+      white: ["Maciej Sputowski", "Anna Jurga", "Jakub Archacki"]
     };
 
     const probabilities = [
@@ -259,8 +308,8 @@ function createIcicles() {
       { rarity: "red", chance: 0.8 },
       { rarity: "pink", chance: 1.2 },
       { rarity: "violet", chance: 1.9 },
-      { rarity: "blue", chance: 30 },
-      { rarity: "white", chance: 66 }
+      { rarity: "blue", chance: 40 },
+      { rarity: "white", chance: 56 }
     ];
 
     function getRandomRarity() {
@@ -406,34 +455,34 @@ function createIcicles() {
     <ul>
       <li>
         <span style="color: gold;">●</span> <span style="color: gold;">Złoty - Obecny Perłowy Władca oraz mistrz ceremonii losowania (0,1% szans)</span><br>
-        <strong>Uczestnicy:</strong> Tomáš Veselý
+        <strong>Uczestnicy:</strong> Jan Biniek
       </li>
       <li>
         <span style="color: #ff6b6b;">●</span> <span style="color: #ff6b6b;">Czerwony - Ten, który obecnemu berła i korony odstąpił (0,8% szans)</span><br>
-        <strong>Uczestnicy:</strong> Jakub Nowakowski
+        <strong>Uczestnicy:</strong> Tomáš Veselý
       </li>
       <li>
         <span style="color: #ffb3d9;">●</span> <span style="color: #ffb3d9;">Różowy - Władca, co przed miesiącem koronę dzierżył (1,2% szans)</span><br>
-        <strong>Uczestnicy:</strong> Adrian Domański
+        <strong>Uczestnicy:</strong> Jakub Nowakowski
       </li>
       <li>
         <span style="color: #c299ff;">●</span> <span style="color: #c299ff;">Fioletowy - Koronowany w dawności, o którym pamiętają tylko najstarsi mędrcy (1,9% szans)</span><br>
-        <strong>Uczestnicy:</strong> Adam Dąbrowski
+        <strong>Uczestnicy:</strong> Adrian Domański
       </li>
       <li>
-        <span style="color: #87ceeb;">●</span> <span style="color: #87ceeb;">Niebieski - Władca sprzed minionych (dwumiesięcznych) czasów wraz z krajanami obecnego miłościwie nam panującego (30% szans, 7,5% na osobę)</span><br>
-        <strong>Uczestnicy:</strong> Jacek Rzewuski, Maciej Sputowski, Anna Jurga, Jakub Archacki.
+        <span style="color: #87ceeb;">●</span> <span style="color: #87ceeb;">Niebieski - Władca sprzed minionych (dwumiesięcznych) czasów wraz z krajanami obecnego miłościwie nam panującego (40% szans, 8% na osobę)</span><br>
+        <strong>Uczestnicy:</strong> Adam Dąbrowski, Jacek Rzewuski, Karol Patecki, Marcin Ziółkowski, Dominik Jarecki.
       </li>
       <li>
-        <span style="color: white;">●</span> <span style="color: white;">Biały - Ostałe pospólstwo (66% szans, 16,5% na osobę)</span><br>
-        <strong>Uczestnicy:</strong> Jan Biniek, Karol Patecki, Marcin Ziółkowski, Dominik Jarecki.
+        <span style="color: white;">●</span> <span style="color: white;">Biały - Ostałe pospólstwo (56% szans, 18,7% na osobę)</span><br>
+        <strong>Uczestnicy:</strong> Maciej Sputowski, Anna Jurga, Jakub Archacki.
       </li>
     </ul>
   </div>
 
   <p style="margin-top: 40px; font-size: 10px; color: #88cc88; position: relative; z-index: 10;">
-    v. 0.5.5 by Jakub Archacki & Claude AI Company Sp. z o. o. 🌸<br>
-    Wiosenna edycja - Uczestnicy zaktualizowani w dn. 2-06-2026
+    v. 0.5.6 by Jakub Archacki & Claude AI Company Sp. z o. o. 🌸<br>
+    Wiosenna edycja - Uczestnicy zaktualizowani w dn. 18-06-2026
   </p>
 </body>
 </html>
