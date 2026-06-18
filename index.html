@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Losowanie</title>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'MedievalSharp', sans-serif;
+      /* LETNI GRADIENT */
+      background: linear-gradient(to bottom, #87ceeb 0%, #4fc3f7 40%, #ffe082 100%);
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* LETNIE OPADY */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: #fff;
+      font-size: 1em;
+      pointer-events: none;
+      z-index: 1;
+      animation: fall linear infinite;
+      text-shadow: 0 0 6px rgba(255, 200, 0, 0.6);
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    .winter-decoration {
+      position: fixed;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* LETNIA STYLISTYKA H1 */
+    h1 {
+      text-shadow: 0 0 20px rgba(255, 193, 7, 0.9), 0 0 30px rgba(255, 152, 0, 0.6);
+      position: relative;
+      z-index: 10;
+      color: #fffde7;
+    }
+
+    .scroll-container {
+      position: relative;
+      width: 600px;
+      height: 120px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 3px solid #ffca28;
+      border-radius: 10px;
+      background: rgba(0, 50, 80, 0.85);
+      box-shadow: 0 0 30px rgba(255, 193, 7, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.1);
+      z-index: 10;
+    }
+
+    .scroll-strip {
+      display: flex;
+      will-change: transform;
+    }
+
+    .name {
+      flex: 0 0 120px;
+      height: 120px;
+      text-align: center;
+      font-size: 15px;
+      background: rgba(0, 80, 120, 0.9);
+      border-right: 1px solid #ffd54f;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      word-wrap: break-word;
+      white-space: normal;
+    }
+
+    /* LETNIE KOLORY RZADKOŚCI */
+    .gold { color: #ffd700; text-shadow: 0 0 10px #ffd700; }
+    .red { color: #ff7043; text-shadow: 0 0 10px #ff7043; }
+    .pink { color: #ff80ab; text-shadow: 0 0 10px #ff80ab; }
+    .violet { color: #b388ff; text-shadow: 0 0 10px #b388ff; }
+    .blue { color: #4fc3f7; text-shadow: 0 0 10px #4fc3f7; }
+    .white { color: #ffffff; text-shadow: 0 0 10px #ffffff; }
+
+    .indicator {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      background: linear-gradient(to bottom, #ffcc00, #ff6f00, #ffcc00);
+      transform: translateX(-50%);
+      z-index: 10;
+      box-shadow: 0 0 10px #ff9800;
+    }
+
+    #result {
+      margin-top: 30px;
+      font-size: 22px;
+      color: #fff176;
+      display: none;
+      text-shadow: 0 0 15px rgba(255, 235, 59, 0.8);
+      position: relative;
+      z-index: 10;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 28px;
+      font-size: 18px;
+      font-family: 'MedievalSharp', sans-serif;
+      background: linear-gradient(to bottom, #fff176, #ffca28);
+      color: #000;
+      border: 2px solid #ff9800;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255, 193, 7, 0.6);
+      position: relative;
+      z-index: 10;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      box-shadow: 0 0 30px rgba(255, 193, 7, 0.9);
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    #legend {
+      margin-top: 50px;
+      color: #fff3e0;
+      text-align: left;
+      padding: 20px;
+      line-height: 1.8;
+      position: relative;
+      z-index: 10;
+      background: rgba(0, 50, 80, 0.6);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🌞 Wylosuj letniego władcę plażowego królestwa! 🌞</h1>
+
+<div class="scroll-container">
+  <div class="scroll-strip" id="scroll-strip"></div>
+  <div class="indicator"></div>
+</div>
+
+<button id="roll-btn">🏖️ Wskaż wybrańca! 🏖️</button>
+
+<div id="result"></div>
+
+<canvas class="confetti" id="confetti"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+  // LETNIE "PŁATKI" (słońce, plaża, lato)
+  function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snowflake');
+
+    const summer = ['🌞', '☀️', '🌻', '🌴', '🏖️', '🌊'];
+    snowflake.innerHTML = summer[Math.floor(Math.random() * summer.length)];
+
+    snowflake.style.left = Math.random() * 100 + 'vw';
+    snowflake.style.animationDuration = Math.random() * 3 + 5 + 's';
+    snowflake.style.opacity = Math.random();
+    snowflake.style.fontSize = (Math.random() * 1 + 0.5) + 'em';
+
+    document.body.appendChild(snowflake);
+
+    setTimeout(() => snowflake.remove(), 8000);
+  }
+
+  setInterval(createSnowflake, 200);
+
+  // LETNIE DEKORACJE
+  function createIcicles() {
+    const summerEmojis = ['🌞','🌴','🌊','🏖️','🍉','🍹','🌺','🌻','☀️','🕶️','🌴','🌊','🏝️','🍍','🌞'];
+
+    for (let i = 0; i < 15; i++) {
+      const icicle = document.createElement('div');
+      icicle.className = 'winter-decoration';
+
+      icicle.style.cssText = `
+        position: fixed;
+        left: ${(i * 7)}%;
+        top: 0px;
+        font-size: ${Math.random() * 10 + 18}px;
+        pointer-events: none;
+        z-index: 5;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+      `;
+
+      icicle.textContent = summerEmojis[i];
+      document.body.appendChild(icicle);
+    }
+  }
+
+  createIcicles();
+
+  // ===== RESZTA LOGIKI BEZ ZMIAN =====
+
+  function triggerMatrixGlitch() {
+    const body = document.body;
+    const glitchOverlay = document.createElement('div');
+    glitchOverlay.id = 'matrix-glitch';
+    glitchOverlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      z-index: 9999;
+      pointer-events: none;
+      font-family: 'Courier New', monospace;
+      color: #00ff00;
+      overflow: hidden;
+      animation: glitchFlicker 0.1s infinite;
+    `;
+
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes glitchFlicker { 0%,100%{opacity:1;} 50%{opacity:0.8;} }
+      @keyframes matrixFall { 0%{transform:translateY(-100%);} 100%{transform:translateY(100vh);} }
+    `;
+    document.head.appendChild(style);
+
+    body.appendChild(glitchOverlay);
+
+    for (let i = 0; i < 50; i++) {
+      const column = document.createElement('div');
+      column.style.cssText = `
+        position: absolute;
+        left: ${Math.random() * 100}%;
+        top: -100%;
+        font-size: ${Math.random() * 20 + 10}px;
+        animation: matrixFall ${Math.random() * 2 + 1}s linear infinite;
+        animation-delay: ${Math.random() * 2}s;
+        text-shadow: 0 0 5px #00ff00;
+      `;
+      column.textContent = String.fromCharCode(0x30A0 + Math.random() * 96);
+      glitchOverlay.appendChild(column);
+    }
+
+    setTimeout(() => {
+      glitchOverlay.style.opacity = '0';
+      glitchOverlay.style.transition = 'opacity 0.5s';
+      setTimeout(() => glitchOverlay.remove(), 500);
+    }, 3000);
+  }
+
+  const allNames = {
+    gold: ["Tomáš Veselý"],
+    red: ["Jakub Nowakowski"],
+    pink: ["Adrian Domański"],
+    violet: ["Adam Dąbrowski"],
+    blue: ["Jacek Rzewuski", "Maciej Sputowski", "Anna Jurga", "Jakub Archacki"],
+    white: ["Jan Biniek", "Karol Patecki", "Marcin Ziółkowski", "Dominik Jarecki"]
+  };
+
+  const probabilities = [
+    { rarity: "gold", chance: 0.1 },
+    { rarity: "red", chance: 0.8 },
+    { rarity: "pink", chance: 1.2 },
+    { rarity: "violet", chance: 1.9 },
+    { rarity: "blue", chance: 30 },
+    { rarity: "white", chance: 66 }
+  ];
+
+  function getRandomRarity() {
+    const rand = Math.random() * 100;
+    let sum = 0;
+    for (let i = 0; i < probabilities.length; i++) {
+      sum += probabilities[i].chance;
+      if (rand < sum) return probabilities[i].rarity;
+    }
+    return "white";
+  }
+
+  function getRandomPersonByRarity(rarity) {
+    const list = allNames[rarity];
+    return list[Math.floor(Math.random() * list.length)];
+  }
+
+  function populateNames() {
+    const strip = document.getElementById("scroll-strip");
+    strip.innerHTML = "";
+    for (let i = 0; i < 150; i++) {
+      const rarity = getRandomRarity();
+      const name = getRandomPersonByRarity(rarity);
+      const div = document.createElement("div");
+      div.className = `name ${rarity}`;
+      div.textContent = name;
+      strip.appendChild(div);
+    }
+  }
+
+  function reset() {
+    document.getElementById("scroll-strip").style.transform = "translateX(0px)";
+    document.getElementById("scroll-strip").innerHTML = "";
+    document.getElementById("result").style.display = "none";
+  }
+
+  function startRoll() {
+    const button = document.getElementById("roll-btn");
+    button.disabled = true;
+
+    reset();
+    populateNames();
+
+    const strip = document.getElementById("scroll-strip");
+    const nameWidth = 120;
+    const containerWidth = 600;
+    const centerOffset = containerWidth / 2 - nameWidth / 2;
+    const total = strip.children.length;
+
+    const minIndex = total - 30;
+    const maxIndex = total - 5;
+    const finalTargetIndex = Math.floor(Math.random() * (maxIndex - minIndex) + minIndex);
+
+    const stopOffset = finalTargetIndex * nameWidth - centerOffset;
+
+    const stripAnimation = strip.animate(
+      [
+        { transform: `translateX(0px)` },
+        { transform: `translateX(-${stopOffset}px)` }
+      ],
+      {
+        duration: 15000,
+        easing: 'cubic-bezier(0.1, 1, 0.4, 1)',
+        fill: 'forwards'
+      }
+    );
+
+    stripAnimation.onfinish = () => {
+      const result = document.getElementById("result");
+      const winner = Array.from(strip.children)[finalTargetIndex];
+
+      const winnerName = winner.textContent.trim();
+
+      if (winnerName === "Jakub Archacki") {
+        triggerMatrixGlitch();
+        result.innerHTML = "⚠️ SYSTEM ERROR ⚠️";
+      } else {
+        result.innerHTML = `👑 WYGRYWA: ${winnerName} 👑`;
+        confetti({ particleCount: 150, spread: 120, origin: { y: 0.4 } });
+      }
+
+      result.style.display = "block";
+
+      button.disabled = false;
+      button.textContent = "🏖️ Wskaż ponownie! 🏖️";
+    };
+  }
+
+  document.getElementById("roll-btn").addEventListener("click", startRoll);
+</script>
+
+</body>
+</html>
